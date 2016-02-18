@@ -80,14 +80,23 @@ drwxr-xr-x  7 root root 4096 Nov 28 09:37 virtualbox-guest-5.0.4<br>
     ``cut -d: -f1,7 /etc/passwd | grep "/sbin/nologin" | wc -l``
 
 15. Create a script for finding duplicate images based on their content (tip: hash or checksum)
-    You may look in the internet for ideas, but please indicate the source of any code you use
-    Save this script as ``find_duplicates.sh`` in this directory and commit your changes to github
+	The script was created with the code provided on http://www.commandlinefu.com/commands/view/2863/find-duplicate-files-based-on-md5-hash#comment <br>
+  A minor modification was made, so that the script accepts one argument as the path to look for file duplicates 
+	
+    alternatively you can use ``fudpes`` like: <br>
+	``fdupes -r /path/to/dir``
+
 
 16. What is the meaning of ``#! /bin/bash`` at the start of scripts? <br>
     Specifies which shell should be used to run the script bash in this case
 
 17. How many unique images are in the ``sipi_images`` database? <br>
-    
+	The SIPI database obtained from http://sipi.usc.edu/database/ contains 215 image files. <br>
+With the script from question 15. It can be stablised that (according to the MD5 hash) there are 3 duplicated files. Asumming this similarity is not due to an MD5 collision, there are 213 different images. The files foun to be the same acorrding to their MD% hash are <br>
+/5.1.14.tiff<br>
+/6.2.16.tiff<br>
+/6.2.32.tiff<br>
+
     
 
 
