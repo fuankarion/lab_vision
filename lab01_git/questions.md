@@ -46,8 +46,8 @@ drwxr-xr-x  4 root root 4096 Feb  1 21:13 nvidia-352-352.79<br>
 lrwxrwxrwx  1 root root   32 Jan 19 12:47 vboxhost-5.0.14 -> ../share/virtualbox/src/vboxhost<br>
 drwxr-xr-x  7 root root 4096 Nov 28 09:37 virtualbox-guest-5.0.4<br>
 
-7.  How many files contain the word ``gpl`` inside in ``/usr/src``
-    Tested in my home computer (linux mint 17.2 distro) there are 0 files. <br>
+7.  How many files contain the word ``gpl`` inside in ``/usr/src``<br>
+    Tested in my home computer (linux mint 17.2 distro) there are 0 files. 
 
 8.  What does the ``cut`` command do? <br>
     According to the specified options it selects only parts of each line from a given file. It might split the line given a String and also select the produced String tokens according to its index
@@ -71,7 +71,7 @@ drwxr-xr-x  7 root root 4096 Nov 28 09:37 virtualbox-guest-5.0.4<br>
     creates a hard link to the argument file
 
 11.  How many users exist in the course server? <br>
-    >   answer
+    The command ``cut -d: -f1,7 /etc/passwd | wc -l``  gives the result 30 (run at 18/2/2016 8:36 am )
 
 12. What command will produce a table of Users and Shells sorted by shell (tip: using ``cut`` and ``sort``) <br>
     ``cut -d: -f1,7 /etc/passwd | sort -k2``
