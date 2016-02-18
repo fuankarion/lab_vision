@@ -1,6 +1,6 @@
 # Warmup Questions
 
-1.  What is the clone url of this repository?
+1.  What is the clone url of this repository? <br>
     https://github.com/fuankarion/lab_vision
 
 2.  What is the output of the ``cal`` command?
