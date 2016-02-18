@@ -92,11 +92,8 @@ drwxr-xr-x  7 root root 4096 Nov 28 09:37 virtualbox-guest-5.0.4<br>
 
 17. How many unique images are in the ``sipi_images`` database? <br>
 	The SIPI database obtained from http://sipi.usc.edu/database/ contains 215 image files. <br>
-With the script from question 15. It can be stablised that (according to the MD5 hash) there are 3 duplicated files. Asumming this similarity is not due to an MD5 collision, there are 213 different images. The files foun to be the same acorrding to their MD% hash are <br>
+With the script from question 15. It can be established that (according to the MD5 hash) there are 3 duplicated files. Assuming this similarity is not due to an MD5 collision, there are 213 different images. The files found to be the same according to their MD5 hash are <br>
 /5.1.14.tiff<br>
 /6.2.16.tiff<br>
 /6.2.32.tiff<br>
-
-    
-
 
