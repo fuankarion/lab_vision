@@ -3,7 +3,7 @@
 1.  What is the clone url of this repository? <br>
     https://github.com/fuankarion/lab_vision
 
-2.  What is the output of the ``cal`` command?
+2.  What is the output of the ``cal`` command?<br>
 
        Februar 2016      
 So Mo Di Mi Do Fr Sa  
@@ -15,23 +15,25 @@ So Mo Di Mi Do Fr Sa
 
 # Homework Questions
 
-1.  What is the ``grep``command?
-    the command grep searches the contents of files and and prints those liness of text who match a given pattern 
+1.  What is the ``grep``command?<br>
+    The command grep searches the contents of files and and prints those liness of text who match a given pattern 
 
-2.  What is a *makefile*?
-    Make file contains the targets needed for the compilation/build of a set of related source files 
+2.  What is a *makefile*?<br>
+    A make file is a plain text file, which contains the targets and instructions needed for the compilation/build of a set of  source files
 
-4.  What does the ``-prune`` option of ``find`` do? Give an example
-    if the comand file operates over a (set of) directory(ies) the find command wont descen into the directory hierachy
+4.  What does the ``-prune`` option of ``find`` do? Give an example<br>
+    If the comand 'find' operates over a (set of) directory(ies) the find command will not descend into the directory hierachy. Example <br>
 
-	find . -name '.bash*' -prune
-    will look for any file whose names starts by ".bash" only on the current directory.
+	``find . -name '.bash*' -prune`` <br>
+    will look for any file whose names starts by ".bash" only on the current directory.<br>
 
-5.  Where is the ``grub.cfg``  file
-    grub.cfg contains the information related to the bootable os installed in the sistem, this configurations provides the basic information so that the user can choose between several available OS at the grub screen.
+5.  Where is the ``grub.cfg``  file <br>
+    It is located under the path /boot/grub.  it contains the information related to the bootable os installed in the sistem, this configurations provides the basic information so that the user can choose between several available OS at the grub screen.<br> 
 
-6.  How many files with ``gnu`` in its name are in ``/usr/src``
-    0 files. Actual output if the ls -la command
+6.  How many files with ``gnu`` in its name are in ``/usr/src`` <br>
+    Tested in my home computer (linux mint 17.2 distro) there are 0 files. <br>
+
+Actual output if the ls -la command<br>
 
 insgesamt 32
 drwxr-xr-x  8 root root 4096 Feb  1 21:13 .
