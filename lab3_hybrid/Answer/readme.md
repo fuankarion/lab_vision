@@ -1,2 +1,2 @@
-(wes.jpg)
+![Wes original](wes.jpg)
 
