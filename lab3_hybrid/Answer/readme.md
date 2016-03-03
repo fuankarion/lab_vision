@@ -33,3 +33,6 @@ These are the resulting images
 
 ###Hybrid Image
 <img src="Weus.jpg" alt="Weus :)" width="300" height="400">
+
+###Pyramid Image
+<img src="pyr.jpg" alt="Pyramid" width="300" height="400">
