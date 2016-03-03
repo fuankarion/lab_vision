@@ -41,8 +41,9 @@ The obtained hybrid image is the following: <br/>
 ###Pyramid Image
 When the pyramid is built, clearly the larger images resemble the picture of the shepper, while the smaller resemble the original picture of the terrier.  It is interesting that, while the alignment of the body of the dogs is completely different (the shepherd is sitting while the terrier is standing), the body of the shepherd is almost completely contained in the long hair of the terrier, thus it almost completely disappears at low resolutions. 
 <br/>
-Finally the color of the images seems to also blend properly according to the resolution. The final (smallest) image seems to be predominantly white as is the fur of the terrier. The first image is light brown, which apparently does not completely match the color of the shepherd, however the more the first image is zoomed in, the closer the color resemblance is. That is the shepherd color looks closer the original brow and black.
 <img src="pyr.jpg" alt="Pyramid" width="897" height="523">
 
+### Color
+Finally the color of the images seems to also blend properly according to the resolution. The final (smallest) image seems to be predominantly white as is the fur of the terrier. The first image is light brown, which apparently does not completely match the color of the shepherd, however the more the first image is zoomed in, the closer the color resemblance is. That is the shepherd color looks closer the original brow and black.
 
 
