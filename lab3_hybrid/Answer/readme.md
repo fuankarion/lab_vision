@@ -32,7 +32,7 @@ These are the resulting images
 </td>
 </tr>
 </table>
-Its is worth noticing that the shapes of the heads are slightly different. The sheppard has a thinner longer face, while the broader face of the terrier looks much more wide due to the long fur. No preprocessing is applied to correct for this feature as this will highly distort other elements in the image, and the eyes and the ears already have a fair correspondence
+Its is worth noticing that the shapes of the heads are slightly different. The sheppard has a thinner, slightly longer face, while the (proportionaly) broader face of the terrier looks even wider due to the long fur. No preprocessing is applied to adress this features as it will highly distort other elements in the image, furthermore the eyes and the ears already have a fair correspondence
 
 ###Hybrid Image
 The obtained hybrid image is the following: <br/>
