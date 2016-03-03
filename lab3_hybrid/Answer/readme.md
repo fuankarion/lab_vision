@@ -13,11 +13,11 @@ These are the original images selected for this laboratory:
 
 The selected images are of two puppies: a West Highland Terrier (left) and a German Shepperd (right). The first picture was taken by the author, while the second was taken by a relative. 
 <br/>
-The hardware used to make the pictures is very different. The picture of the terrier was made with a low resolution CCD sensor on an Asus note 7 tablet and the second was made with a CMOS sensor on a nikon L820 camera. The resolution is very different; the original terrier picture has a resolution of 960x1280 pixels (2 mp), the  shepherd picture has an original resolution of 4608x3456 (16 mp). It is also worth noticing that the orientation of the original images is portrait (terrier) and landscape (shepperd).
+The hardware used to make the pictures is very different. The picture of the terrier was made with a low resolution CCD sensor on an Asus note 7 tablet and the second was made with a CMOS sensor on a Nikon L820 camera. The resolution is very different; The original terrier picture has a resolution of 960x1280 pixels (2 Mpx), the  shepherd picture has an original resolution of 4608x3456 (16 Mpx). It is also worth noticing that the orientation of the original images is portrait (terrier) and landscape (shepperd).
 
 ###Image Transformation
-While the position and orientation of the dogs faces is very close, some simple operations had to be made to better align the images. 
-First, as the image of the german shepherd is at a much higher resolution, it is rescaled so that both images have the same height.
+Images were carefuly selected so that the position, size and orientation of the dogs faces are similar already, yet some simple operations had to be made to better align the images. 
+First, as the image of the german shepherd is at a much higher resolution, it is rescaled so that both have the same height.
 Second, images are cropped to 600x680 size. The main goal of this cropping operation is to keep the eyes of the dogs close to the center of the image.
 Third, the  image of the shepherd is rotated 12 degrees to the left to better align the eyes and noses of the dogs
 These are the resulting images
