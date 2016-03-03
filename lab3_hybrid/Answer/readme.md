@@ -1,5 +1,5 @@
 ###Original images
-These are the original images selected for this laboratory
+These are the original images selected for this laboratory:
 <table>
 <tr>
 <td>
@@ -11,7 +11,9 @@ These are the original images selected for this laboratory
 </tr>
 </table>
 
-The selected images are of two puppies: a west highland terrier (left) and a German Shepperd (right). The first picture was taken by the author, while the second was taken by a relative. The hardware used to make the pictures is very different. The picture of the terrier was made with a low resolution ccd sensor on an Asus note 7 tablet and the second was made with a cmos sension on a nikon L820 camera. The resolution is very different; the original terrier picture has a resolution of 960x1280 pixels (2 mp), the  shepherd picture has an original resolution of 4608x3456 (16 mp). It is also worth noticing that the orientation of the original images is portrait (terrier) and landscape (shepperd)
+The selected images are of two puppies: a West Highland Terrier (left) and a German Shepperd (right). The first picture was taken by the author, while the second was taken by a relative. 
+<br/>
+The hardware used to make the pictures is very different. The picture of the terrier was made with a low resolution CCD sensor on an Asus note 7 tablet and the second was made with a CMOS sensor on a nikon L820 camera. The resolution is very different; the original terrier picture has a resolution of 960x1280 pixels (2 mp), the  shepherd picture has an original resolution of 4608x3456 (16 mp). It is also worth noticing that the orientation of the original images is portrait (terrier) and landscape (shepperd).
 
 ###Image Transformation
 While the position and orientation of the dogs faces is very close, some simple operations had to be made to better align the images. 
@@ -30,14 +32,17 @@ These are the resulting images
 </td>
 </tr>
 </table>
-Its is worth noticing that the shapes of the heads of the dogs are slightly different. The sheppard has a thinner face, while the broader face of the terrier looks much more wide thanks to the long hair. No preprocessing is applied to correct for this feature as this will highly distort other elements in the image, and the eyes and the ears already have a fair correspondence
+Its is worth noticing that the shapes of the heads are slightly different. The sheppard has a thinner longer face, while the broader face of the terrier looks much more wide due to the long fur. No preprocessing is applied to correct for this feature as this will highly distort other elements in the image, and the eyes and the ears already have a fair correspondence
 
 ###Hybrid Image
 The obtained hybrid image is the following: <br/>
 <img src="Weus.jpg" alt="Weus :)" width="600" height="680" style="display: block; margin-left: auto; margin-right: auto">
 
 ###Pyramid Image
-When a pyramid is built clearly the larger images resemble the picture of the shepper, while the smaller resemble the original picture of the terrier.  It is interesting that, while the alignment of the body of the dogs is completely different, the body of the shepherd is almost completely contained in the long hair of the terrier, thus it almost completely disappears at low resolutions
+When the pyramid is built, clearly the larger images resemble the picture of the shepper, while the smaller resemble the original picture of the terrier.  It is interesting that, while the alignment of the body of the dogs is completely different (the shepherd is sitting while the terrier is standing), the body of the shepherd is almost completely contained in the long hair of the terrier, thus it almost completely disappears at low resolutions. 
+<br/>
+Finally the color of the images seems to also blend properly according to the resolution. The final (smallest) image seems to be predominantly white as is the fur of the terrier. The first image is light brown, which apparently does not completely match the color of the shepherd, however the more the first image is zoomed in, the closer the color resemblance is. That is the shepherd color looks closer the original brow and black.
 <img src="pyr.jpg" alt="Pyramid" width="897" height="523">
+
 
 
