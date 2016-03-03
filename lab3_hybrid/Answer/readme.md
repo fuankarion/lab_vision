@@ -30,3 +30,6 @@ These are the resulting images
 </td>
 </tr>
 </table>
+
+###Hybrid Image
+<img src="weus.jpg" alt="Weus :)" width="300" height="400">
