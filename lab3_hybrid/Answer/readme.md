@@ -3,10 +3,10 @@ These are origina images selected for this laboratoy
 <table>
 <tr>
 <td>
-	<img src="wes.jpg" alt="Wes Original" width="300" height="400">
+	<img src="wes.jpg" alt="Wes Original" width="345" height="460">
 </td>
 <td>
-	<img src="zeus.jpg" alt="Zeus Original" width="400" height="300">
+	<img src="zeus.jpg" alt="Zeus Original" width="460" height="345">
 </td>
 </tr>
 </table>
