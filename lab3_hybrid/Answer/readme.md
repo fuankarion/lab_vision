@@ -35,4 +35,4 @@ These are the resulting images
 <img src="Weus.jpg" alt="Weus :)" width="600" height="680">
 
 ###Pyramid Image
-<img src="pyr.jpg" alt="Pyramid" width="600" height="350">
+<img src="pyr.jpg" alt="Pyramid" width="780" height="455">
