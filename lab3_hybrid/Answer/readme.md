@@ -32,4 +32,4 @@ These are the resulting images
 </table>
 
 ###Hybrid Image
-<img src="weus.jpg" alt="Weus :)" width="300" height="400">
+<img src="Weus.jpg" alt="Weus :)" width="300" height="400">
