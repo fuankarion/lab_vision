@@ -23,16 +23,16 @@ These are the resulting images
 <table>
 <tr>
 <td>
-	<img src="wesFinal.jpg" alt="Wes Final" width="300" height="400">
+	<img src="wesFinal.jpg" alt="Wes Final" width="345" height="460">
 </td>
 <td>
-	<img src="zeusFinal.jpg" alt="Zeus Final" width="400" height="300">
+	<img src="zeusFinal.jpg" alt="Zeus Final" width="460" height="345">
 </td>
 </tr>
 </table>
 
 ###Hybrid Image
-<img src="Weus.jpg" alt="Weus :)" width="600" height="680">
+<img src="Weus.jpg" alt="Weus :)" width="600" height="680" style="display: block; margin-left: auto; margin-right: auto">
 
 ###Pyramid Image
 <img src="pyr.jpg" alt="Pyramid" width="897" height="523">
