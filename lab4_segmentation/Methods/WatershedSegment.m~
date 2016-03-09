@@ -1,0 +1,29 @@
+function clustered = WatershedSegment(img)
+
+img= medfilt2(img,[4,4]);
+
+
+borders= edge(img,'Canny');
+imshow(horzmat2gray(img))
+
+se = strel('rectangle',[3,3]);
+
+borders = imdilate(borders,se);
+borders=1-borders;
+
+
+%imshow(mat2gray(borders))
+
+img = imimposemin(img, borders);
+hy = fspecial('sobel');
+hx = hy';%Filter for the borders in the other orientation
+
+Iy = imfilter(double(img), hy, 'replicate');
+Ix = imfilter(double(img), hx, 'replicate');
+grad = sqrt(Ix.^2 + Iy.^2);
+% watersheds
+clustered = watershed(grad);
+
+end
+
+

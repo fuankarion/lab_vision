@@ -15,8 +15,6 @@ function lineImageWithCoordinates = MultichaneReshapeWithCoordinates( img )
         end
     end
 
-    size(lineImage)
-    size(vecCoordinates)
     
     %normalizing, cheap shot :)
     lineImage=mat2gray(lineImage);
