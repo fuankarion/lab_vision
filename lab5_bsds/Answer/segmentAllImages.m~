@@ -1,0 +1,15 @@
+function [ ] = egmentAllImages( sorceDir,targetDir )
+    addpath '/home/fuanka/Dokumente/CV/lab_vision/lab4_segmentation/Methods'
+    
+    sDir = dir(strcat(sorceDir,'/*.jpg'));
+    for image = 1:length(sDir)
+       if(imageIdx>30)
+           break
+       sDir(image).name
+       img = imread(strcat(sorceDir,'/',sDir(image).name));
+       segemented=segment_by_clustering(img,'lab+xy','k-means',20);
+       imwrite(mat2gray(segmented),strcat(targetDir,'/',sDir(image).name))
+    end
+      
+end
+
