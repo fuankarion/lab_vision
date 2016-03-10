@@ -6,7 +6,7 @@ scaleFactor=5
 originalSize=size(img);
 imgResized=imresize(img,1/scaleFactor);
 resizedSize=size(imgResized);
-watersedImage=img(:,:,2);
+watershedImage=img;
 
 switch feature_space
     case 'rgb'
@@ -76,15 +76,12 @@ switch method
     case 'hierarchical'
         clustered=HierachicalSegment(lineImageResize,resizedSize,numclusters);
     case 'watershed'
-        clustered=WatershedSegment(watersedImage);
+        clustered=WatershedSegment(watershedImage);
     otherwise
         warning('Dafuq?')
 end
 
-
-im=imagesc(clustered);
-
-%imshow(im)
+my_segmentation=clustered;
 
 end
 
