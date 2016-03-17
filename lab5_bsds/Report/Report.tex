@@ -209,14 +209,14 @@ Finalmente el benchmark de BSD500 requiere que se utilicen varias configuración
 \label{fig:heli}
 \end{figure*}
 
-\begin{figure*}
+\begin{figure}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
                  {img/Pyramid.jpg}
 \end{center}
  \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Objetos muy grandes como el cielo tienden a ser divididos en varios elementos}
 \label{fig:pyra}
-\end{figure*}
+\end{figure}
 
 \begin{figure*}
 \begin{center}
@@ -233,9 +233,33 @@ Finalmente el benchmark de BSD500 requiere que se utilicen varias configuración
 El benchmark de BSD500 contiene algunos resultados generados con el método ‘ultrametric contour map’ (UCM), para demostrar el uso de la base de datos. Una vez se arreglan los paths para que coincida con la localización de los directorios en el disco local se puede correr sin problema el benchmark 3 que lleva el nombre ‘ 3. boundary benchmark for results stored as a cell of segmentations’ . El resultado es el siguiente:
 
 
-Los resultados obtenidos al correr el benchmark con los métodos seleccionados son los siguientes.
+Los resultados obtenidos al correr el benchmark con los métodos seleccionados se presnetan el la tabla \ref{table:thetable} y la firgura \ref{fig:plot} .
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=1.15\linewidth]
+                 {img/metods.jpg}
+\end{center}
+ \caption{Curvas de precision y recall para los metodos usados en el laboratorio}
+\label{fig:plot}
+\end{figure}
+
+\begin{table*}[t]
+\centering
+\begin{tabular}{c | c | c | c }
+ Metodo & ODS & OID & AreaPR  \\
+ \hline	
+ LAB+xy GMM & F( 0.78, 0.38 ) = 0.51  & F( 0.80, 0.45 ) = 0.58 & 0.27 \\
+ HSB+xy GMM &  &  &  \\
+ UCM &  &  &  \\
+\end{tabular}
+\label{table:thetable}
+\end{table*}
+
 
 Las curvas obtenidas para los métodos propuestos en este laboratorio comparten la misma deficiencia:  no pueden obtener en ningún caso la precisión de 1.0 ni el exhaustividad de 1.0. Esto indica que en ninguna de las combinaciones probadas dentro de este laboratorio (espacio de color y K) se logró evitar falsos positivos o falsos negativos.
+
 
 \subsection{Análisis de resultados}
 
