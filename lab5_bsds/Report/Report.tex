@@ -49,20 +49,20 @@ Universidad de los Andes\\
 
 %%%%%%%%% BODY TEXT
 
-\section{Introdiccion}
-El presente laboratio sirve como introducción al benchmark conocido como 'The Berkeley Segmentation Dataset and Benchmark' (BSD500), un datset y benchmak publico, que abordo por primera ves de forma sistematica y reroducible el problema de segmenetación de objetos en imagenes naturales. El objetivo principal es evaluar un conjunto de metodos de segementacion cosntruidos en el laboratorio previo y compararlos con el metodo ‘ultrametric contour map’ (UCM).
+\section{Introducción}
+El presente laboratorio sirve como introducción al benchmark conocido como 'The Berkeley Segmentation Dataset and Benchmark' (BSD500), un dataset y benchmak público, que abordó por primera vez de forma sistemática y reproducible el problema de segmentación de objetos en imágenes naturales. El objetivo principal es evaluar un conjunto de métodos de segmentación construidos en el laboratorio previo y compararlos con el método ‘ultrametric contour map’ (UCM) \cite{Arbelaez2009}.
 
 \section{Métodos de segmentación:}
 Para  el presente laboratorio se seleccionaron 4 métodos de segmentación:
 
 \begin{description}
-\item[KMeans] Construye un conjunto de K clusters según K centroides que minimicen la suma total de las distancias de los puntos a los centroides \footnote{La implementacion se encuentra en KmeansSegment.m} \cite{Jain2010}
+\item[KMeans] Construye un conjunto de K clusters según K centroides que minimicen la suma total de las distancias de los puntos a los centroides \footnote{La implementación se encuentra en KmeansSegment.m} \cite{Jain2010}
 
-\item[Mezcla de Gaussianas (GMM)] Construye un conjunto de K clusters donde se tiene un ajuste óptimo de los elementos a un conjunto de K gaussianas (clusters) parametrizadas por un conjunto de K mediasy matrices de covarianza. \footnote{Para resolver algunos problemas de convergencia en la implementación de MATLAB se utilizó un regularizador con valor de 0.0001. La implementacion se encuentra en GMMSegment.m} \cite{Banfield1993}
+\item[Mezcla de Gaussianas (GMM)] Construye un conjunto de K clusters donde se tiene un ajuste óptimo de los elementos a un conjunto de K gaussianas (clusters) parametrizadas por un conjunto de K medias y matrices de covarianza. \footnote{Para resolver algunos problemas de convergencia en la implementación de MATLAB se utilizó un regularizador con valor de 0.0001. La implementación se encuentra en GMMSegment.m} \cite{Banfield1993}
 
-\item[Hierachical Cluster] Para cierta distancia D, se crea una jerarquía de elementos que son agrupados de manera jerárquica según la similaridad que existe entre ellos. \footnote{Para la implementación de MATLAB se utilizó una distancia euclidiana normalizada por la desviación estándar. La implementacion se encuentra en HierachicalSegment.m} \cite{Arifin2006}
+\item[Hierachical Cluster] Para cierta distancia D, se crea una jerarquía de elementos que son agrupados de manera jerárquica según la similaridad que existe entre ellos. \footnote{Para la implementación de MATLAB se utilizó una distancia euclidiana normalizada por la desviación estándar. La implementación se encuentra en HierachicalSegment.m} \cite{Arifin2006}
 
-\item[Watershed] Debido a que el método base produce una sobre segmentación  de las imágenes en la base de datos. \footnote{Se agregó una paso de inicialización donde se trata de estimar las regiones de la imagen donde existen objetos grandes y continuos a fin de evitar que el algoritmo de watershed genere clusters en esas regiones. Para este fin  se aplicó un filtro mediano a la imagen (eliminación de bordes espurios) sobre la imagen filtrada se aplicó el detector de bordes de canny y a los bordes se les realizó la operación morfológica de dilatación afin de para expandirlos.  Finalmente el inverso de la imagen fue utilizado como máscara para establecer las regiones donde el. La implementacion se encuentra en WatershedSegment.m} \cite{Shafarenko1997}
+\item[Watershed] Debido a que el método base produce una sobre segmentación  de las imágenes en la base de datos. \footnote{Se agregó una paso de inicialización donde se trata de estimar las regiones de la imagen donde existen objetos grandes y continuos a fin de evitar que el algoritmo de watershed genere clusters en esas regiones. Para este fin  se aplicó un filtro mediano a la imagen (eliminación de bordes espurios) sobre la imagen filtrada se aplicó el detector de bordes de canny y a los bordes se les realizó la operación morfológica de dilatación afin de para expandirlos.  Finalmente el inverso de la imagen fue utilizado como máscara para establecer las regiones donde el. La implementación se encuentra en WatershedSegment.m} \cite{Shafarenko1997}
 
 \end{description}
 
@@ -92,13 +92,13 @@ De esta manera se cuenta con 6 espacios de color:
 
 Existen 24 combinaciones iniciales de parámetros, se tiene en cuenta los espacios de color y métodos de segmentación (6 espacios de color, 4 métodos de segmentación).
 
-La cantidad de combinaciones aumenta si se considera  el valor de K que a priori puede tomar cualquier valor mayor 2 (1 es un valor válido para cualquier método, pero produciría una segmentación trivial). A fin de estimar un rango de valores adecuado para K, analizamos el número de clusters en el set de ‘train’. Inicialmente calculamos el promedio de clusters de todas las imágenes en set de entrenamiento. Encontramos un promedio de 19.64 clusters, con una desviación estándar de 17.47. Esto indica que el 95\% de las imágenes tiene entre 0 y 55 anotaciones. Con este analisis inicial, una búsqueda exhaustiva de los mejores parámetros posibles implicaría segmentar cada imagen  1320 veces.  En la práctica no se cuenta con tanto tiempo disponible así que utilizamos dos estrategias para reducir el número de pruebas.
+La cantidad de combinaciones aumenta si se considera  el valor de K que a priori puede tomar cualquier valor mayor 2 (1 es un valor válido para cualquier método, pero produciría una segmentación trivial). A fin de estimar un rango de valores adecuado para K, analizamos el número de clusters en el set de ‘train’. Inicialmente calculamos el promedio de clusters de todas las imágenes en set de entrenamiento. Encontramos un promedio de 19.64 clusters, con una desviación estándar de 17.47. Esto indica que el 95\% de las imágenes tiene entre 0 y 55 anotaciones. Con este análisis inicial, una búsqueda exhaustiva de los mejores parámetros posibles implicaría segmentar cada imagen  1320 veces.  En la práctica no se cuenta con tanto tiempo disponible así que utilizamos dos estrategias para reducir el número de pruebas.
 
-Primero, estimamos un rango menor para K, si bien hay imagenes que tienen una gran cantidad de clusters (hasta 95 regiones anotadas distintas) la mayoría de esta regiones cubren un area muy pequeña en la imagen. Con esto en mente se decidió incluir en el promedio solo aquellos clusters que ocupen más del 2\% de los pixels de la imagen \footnote{No existe una razón formal para elegir el umbral del 2\%, sin embargo, un clúster que agrupe menos del 2\% de los pixels imagen, agruparia menos de 60 pixels; Es poco probable que los métodos utilizados tengan la capacidad de identificar y segmentar una región tan pequeña}
+Primero, estimamos un rango menor para K, si bien hay imágenes que tienen una gran cantidad de clusters (hasta 95 regiones anotadas distintas) la mayoría de esta regiones cubren un área muy pequeña en la imagen. Con esto en mente se decidió incluir en el promedio solo aquellos clusters que ocupen más del 2\% de los pixels de la imagen \footnote{No existe una razón formal para elegir el umbral del 2\%, sin embargo, un clúster que agrupa menos del 2\% de los pixels imagen, agruparia menos de 60 pixels; Es poco probable que los métodos utilizados tengan la capacidad de identificar y segmentar una región tan pequeña}
 
 Después de este cambio, se obtiene un promedio de 6.42 clusters por imagen, con una desviación estándar de 3.28. Esto indica que el 95\% de las imágenes tiene entre 2 y  13 clusters . Después de esta reducción se tiene todavía que segmentar cada imagen 244 veces, sumado al tiempo computacional de la evaluación del método, el tiempo de ejecución todavía es prohibitivo.
 
-Para solucionar esto, se aplica una segunda estraegia para evitar hacer pruebas exaustivas sobre todos los paramatros. Se escoge al azar un subconjunto de 10 imágenes del dataset de ‘test’, aplicar los 4 métodos de segmentación, en 6 espacios de color y para un valor de K que corresponde a  la media (6). A fin de inspeccionar visualmente algunas de las 240 imágenes generadas. El objetivo es tratar de reconocer que combinación de parámetros produce una segmentación que visualmente parece ser más adecuada.
+Para solucionar esto, se aplica una segunda estrategia para evitar hacer pruebas exhaustivas sobre todos los parámetros. Se escoge al azar un subconjunto de 10 imágenes del dataset de ‘test’, aplicar los 4 métodos de segmentación, en 6 espacios de color y para un valor de K que corresponde a  la media (6). A fin de inspeccionar visualmente algunas de las 240 imágenes generadas. El objetivo es tratar de reconocer que combinación de parámetros produce una segmentación que visualmente parece ser más adecuada.
 
 Algunas de las imágenes obtenidas se presentan en las figuras \ref{fig:sRGB}, \ref{fig:SLAB} y \ref{fig:SLABXY}
 
@@ -106,27 +106,27 @@ Algunas de las imágenes obtenidas se presentan en las figuras \ref{fig:sRGB}, \
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                  {img/RGSample.jpg}
+                 {img/RGSample.jpg}
 \end{center}
-  \caption{Segmentación usando RGB de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
+ \caption{Segmentación usando RGB de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
 \label{fig:sRGB}
 \end{figure*}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                  {img/LABSample.jpg}
+                 {img/LABSample.jpg}
 \end{center}
-  \caption{Segmentación usando LAB de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
+ \caption{Segmentación usando LAB de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
 \label{fig:SLAB}
 \end{figure*}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                  {img/LABXYSample.jpg}
+                 {img/LABXYSample.jpg}
 \end{center}
-  \caption{Segmentación usando LAB+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
+ \caption{Segmentación usando LAB+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
 \label{fig:SLABXY}
 \end{figure*}
 
@@ -155,15 +155,17 @@ La subdivisión del dataset tiene el siguiente objetivo: Sobre el conjunto de �
 
 \subsection{Verdad de terreno BSD500}
 
-Cada uno de las subdivisiones del dataset cuenta con una ‘verdad de terreno’ (Ground Truth) que se encuentra dentro del directorio ‘..../BSDS500/data/groundTruth’ esta almacenada dentro de archivos binarios con el formato de MATLAB. y está indexada según el número de imagen en la base de datos.  La verdad de terreno de una imagen cualquiera se puede cargar con el comando:
-‘gt=load('.../BSR/BSDS500/data/groundTruth/2018.mat')’
-La anotación tiene el mismo tamaño de la imagen original y consta de un único número entero para designar el cluster (el objeto) al que pertenece el píxel. Con ayuda de la función ‘imagesc’ de MATLAB se puede visualizar algunas de las verdades de terreno.
+Cada uno de las subdivisiones del dataset cuenta con una ‘verdad de terreno’ (Ground Truth) que se encuentra dentro del directorio ‘..../BSDS500/data/groundTruth’ esta almacenada dentro de archivos binarios con el formato de MATLAB. y está indexada según el número de imagen en la base de datos.  La verdad de terreno de una imagen cualquiera se puede cargar con el comando:\\
+
+‘gt=load('.../BSR/BSDS500/data/groundTruth/2018.mat')’\\
+
+La anotación tiene el mismo tamaño de la imagen original y consta de un único número entero para designar el cluster (el objeto) al que pertenece el píxel. Con ayuda de la función ‘imagesc’ de MATLAB se puede visualizar algunas de las verdades de terreno (ver figura \ref{fig:short2}.
 
 \begin{figure}
 
 \includegraphics[width=0.85\linewidth]
-                  {img/Imagesc.png}
-  \caption{Ecaption}
+                 {img/Imagesc.png}
+ \caption{Visualización del ground Truth de una de las imágenes en el dataset}
 \label{fig:short2}
 \end{figure}
 
@@ -183,75 +185,78 @@ Finalmente el benchmark de BSD500 requiere que se utilicen varias configuración
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                  {img/Kidshsvxy.jpg}
+                 {img/Kidshsvxy.jpg}
 \end{center}
-  \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Se observa que el método no es capaz de considerar el rosto de las personas y su ropa como un único objeto}
+ \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Se observa que el método no es capaz de considerar el rosto de las personas y su ropa como un único objeto}
 \label{fig:kids}
 \end{figure*}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                  {img/Tigerhsvxy.jpg}
+                 {img/Tigerhsvxy.jpg}
 \end{center}
-  \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Se observa que el método clasifica las rayas del tigre y su sombra como objetos aparte}
+ \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Se observa que el método clasifica las rayas del tigre y su sombra como objetos aparte}
 \label{fig:tiger}
 \end{figure*}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                  {img/Heli.jpg}
+                 {img/Heli.jpg}
 \end{center}
-  \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Cambios abruptos de iluminación (como en el vidrio del helicóptero) genera objetos inexistentes}
+ \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Cambios abruptos de iluminación (como en el vidrio del helicóptero) genera objetos inexistentes}
 \label{fig:heli}
 \end{figure*}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                  {img/Pyramid.jpg}
+                 {img/Pyramid.jpg}
 \end{center}
-  \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Objetos muy grandes como el cielo tienden a ser divididos en varios elementos}
+ \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Objetos muy grandes como el cielo tienden a ser divididos en varios elementos}
 \label{fig:pyra}
 \end{figure*}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                  {img/woman.jpg}
+                 {img/woman.jpg}
 \end{center}
-  \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Objetos grandes con texturas complejas tienden a ser sobre segmentados}
-\label{fig:pyra}
+ \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Objetos grandes con texturas complejas tienden a ser sobre segmentados}
+\label{fig:woman}
 \end{figure*}
 
 
 \section{Resultados}
 
-EL benchmark de BSD500 contiene algunos resultados generados con el método ‘ultrametric contour map’ (UCM), para demostrar el uso de la base de datos. Una vez se arreglan los paths para que coincida con la localización de los directorios en el disco local se puede correr sin problema el benchmark 3 que lleva el nombre ‘ 3. boundary benchmark for results stored as a cell of segmentations’ . El resultado es el siguiente:
+El benchmark de BSD500 contiene algunos resultados generados con el método ‘ultrametric contour map’ (UCM), para demostrar el uso de la base de datos. Una vez se arreglan los paths para que coincida con la localización de los directorios en el disco local se puede correr sin problema el benchmark 3 que lleva el nombre ‘ 3. boundary benchmark for results stored as a cell of segmentations’ . El resultado es el siguiente:
 
 
 Los resultados obtenidos al correr el benchmark con los métodos seleccionados son los siguientes.
 
-Las curvas obtenidas para los metodos propuestos en este laboratorio compraten la misma deficiencia:  no pueden obtener en ningun caso la precision de 1.0 ni el exaustividad de 1.0. Esto indica que en ninguna de las combinaciones probadas dentro de este laboratorio (espacio de color y K) se logro evitar falsos positivos o falsos negativos.
+Las curvas obtenidas para los métodos propuestos en este laboratorio comparten la misma deficiencia:  no pueden obtener en ningún caso la precisión de 1.0 ni el exhaustividad de 1.0. Esto indica que en ninguna de las combinaciones probadas dentro de este laboratorio (espacio de color y K) se logró evitar falsos positivos o falsos negativos.
 
-\section{Análisis de resultados}
+\subsection{Análisis de resultados}
 
-Existe una clara diferencia en desempeño entre los algoritmos creados para el laboratorio y el UCM. La diferencia se puede explicar en gran medida en que los algoritmos utilizan únicamente la información local de color del píxel y la localización absoluta en la imagen. Este tipo de información permite únicamente aproximarse a los verdaderos contornos  tiene claras condiciones de falla entre otras:
+Existe una clara diferencia en desempeño entre los algoritmos creados para el laboratorio y el UCM. La diferencia se puede explicar en gran medida en que los algoritmos utilizan únicamente la información local de color del píxel y la localización absoluta en la imagen. Este tipo de información permite únicamente aproximarse a los verdaderos contornos y tiene varias condiciones de falla entre otras:
+
 \begin{itemize}
-\item Si dos regiones del mismo objeto tienen  colores distintos casi siempre son etiquetadas como dos objetos distintos. (ejemplo el rostro y la ropa de una persona)
-\item  Objetos cuyas texturas tiene patrones con baja frecuencia espacial, es decir están compuestas por elementos gran tamaño, tienden a ser divididos según en los patrones que lo conforman (ejemplo las rayas del tigre)
-\item Cambios fuertes de iluminación en un objeto de un solo color son clasificados como objetos distintos  (ejemplo el vidrio del helicóptero)
-\item Tiende a sobre segmentar objetos de gran tamaño cuya textura tiene una alta frecuencia espacial, es decir está compuesta por pequeños elementos que se repiten, (ejemplo imagen de la mujer con arco)
-\item Tiende a dividir los elementos grandes que tiene color constante, (por ejemplo el cielo en las imágenes)
+\item Si dos regiones del mismo objeto tienen  colores distintos casi siempre son etiquetadas como dos objetos distintos. (ejemplo el rostro y la ropa de una persona, ver figura \ref{fig:kids})
+\item  Objetos cuyas texturas tienen patrones con baja frecuencia espacial, tienden a ser divididos según en los patrones que lo conforman (ejemplo las rayas del tigre, ver figura \ref{fig:tiger})
+\item Cambios fuertes de iluminación en un objeto de un solo color son clasificados como objetos distintos  (ejemplo el vidrio del helicóptero, ver figura \ref{fig:heli})
+\item Tiende a sobre segmentar objetos de gran tamaño cuya textura tiene una alta frecuencia espacial (ver imagen de la mujer con arco \ref{fig:woman})
+\item Tiende a dividir los objetos grandes de color aproximadamente constante, (por ejemplo el cielo, ver figura \ref{fig:pyra})
 
 \end{itemize}
 Todas estas son fallas muy bien conocidas en los algoritmos de segmentación y, en particular, son fallas que se tuvieron en cuenta al momento de diseñar el algoritmo de UCM.
-En la medida que la mayoría de las condiciones de falla están relacionadas con la asignación de un elemento en el cluster equivocado. La precisión del UCM está bastante por encima de lo obtenido por el algoritmo seleccionado.
+En la medida que la mayoría de las condiciones de falla están relacionadas con la asignación de un elemento en el cluster equivocado. La precisión del UCM está bastante por encima de lo obtenido por los algoritmos seleccionados.
 
 \subsection{Posibles mejoras sobre el método seleccionado}
-En general es muy difícil mejorar el método propuesto sin incluir información extra sobre las regiones que se espera obtener, en particular información en cuanto a continuidad de las regiones (magnitud de gradiente o estimación de bordes) podría ser incorporada dentro del esquema de clustering a fin de evitar la división y unión incorrecta de regiones y la.
+En general es muy difícil mejorar el método propuesto sin incluir información extra sobre las regiones que se espera segmentar. En particular información de la continuidad de las regiones (magnitud de gradiente o estimación de bordes) podría ser incorporada dentro del esquema de clustering a fin de evitar la división y unión incorrecta de regiones.
+
 Una segunda falencia del método es que utiliza únicamente la información de local del pixel, en el escenario controlado de BSB esto implica que la información regional del pixel (textura, bordes, esquinas, etc.) es ignorada completamente. En un caso no controlado implica que el ruido de captura y posibles oclusiones van a afectar de manera más severa los resultados.
+
 Finalmente, y para poder superar el desempeño de UCM, sería necesario incorporar información semántica dentro del método, esto permitiría, por ejemplo, que  el rostro y la ropa de una persona se agrupen dentro de un mismo objeto a pesar de no compartir ninguna característica visual. Esto implica que el clustering es solo uno de los pasos dentro de un esquema de clasificación donde se modelan explícitamente las categorías semánticas presentes en la imagen.
 
 
@@ -265,5 +270,7 @@ En un escenario real en el que se requiera aplicar un método de segmentación, 
 }
 
 \end{document}
+
+
 
 
