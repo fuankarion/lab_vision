@@ -2,7 +2,7 @@
 %las escala de las coordenandas y la escala de los colores
 function my_segmentation = segment_by_clustering( img,feature_space,method,numclusters)
 
-scaleFactor=5
+scaleFactor=4
 originalSize=size(img);
 imgResized=imresize(img,1/scaleFactor);
 resizedSize=size(imgResized);
@@ -63,7 +63,7 @@ switch feature_space
         lineImage = MultichaneReshapeWithCoordinates(imgTransformed);
         lineImageResize = MultichaneReshapeWithCoordinates(imgTransformedResized);
     otherwise
-        warning('Dafuq?')
+        warning('Dafuq1?')
 end
 
 clustered=zeros(originalSize(1),originalSize(2));
@@ -75,10 +75,11 @@ switch method
         clustered=GMMSegment(lineImage,originalSize,numclusters);
     case 'hierarchical'
         clustered=HierachicalSegment(lineImageResize,resizedSize,numclusters);
+        clustered=imresize(clustered,[originalSize(1),originalSize(2)]);
     case 'watershed'
         clustered=WatershedSegment(watershedImage);
     otherwise
-        warning('Dafuq?')
+        warning('Dafuq2?')
 end
 
 my_segmentation=clustered;
