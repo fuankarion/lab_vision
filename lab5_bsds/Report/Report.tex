@@ -230,12 +230,9 @@ Finalmente el benchmark de BSD500 requiere que se utilicen varias configuración
 
 \section{Resultados}
 
-El benchmark de BSD500 contiene algunos resultados generados con el método ‘ultrametric contour map’ (UCM), para demostrar el uso de la base de datos. Una vez se arreglan los paths para que coincida con la localización de los directorios en el disco local se puede correr sin problema el benchmark 3 que lleva el nombre ‘ 3. boundary benchmark for results stored as a cell of segmentations’ . El resultado es el siguiente:
+El benchmark de BSD500 contiene algunos resultados generados con el método ‘ultrametric contour map’ (UCM), para demostrar el uso de la base de datos. Una vez se arreglan los paths para que coincida con la localización de los directorios en el disco local se puede correr sin problema el benchmark 3 que lleva el nombre ‘ 3. boundary benchmark for results stored as a cell of segmentations’.
 
-
-
-
-Los resultados obtenidos al correr el benchmark con los métodos seleccionados en el laboratorio, el método de UCM sobre el set completo de validación se presentan en la tabla \ref{table:thetable} y la firgura \ref{fig:plot} .
+Los resultados del benchmark con los métodos seleccionados en el laboratorio y el método de UCM sobre el set completo de validación se presentan en la tabla \ref{table:thetable} y la firgura \ref{fig:plot} .
 
 
 \begin{figure}
@@ -253,14 +250,14 @@ Los resultados obtenidos al correr el benchmark con los métodos seleccionados e
 Metodo & ODS & OID & AreaPR  \\
 \hline	
 LAB+xy GMM & F( 0.78, 0.38 ) = 0.51  & F( 0.80, 0.45 ) = 0.58 & 0.27 \\
-HSB+xy GMM &  &  &  \\
+HSV+xy GMM &  &  &  \\
 UCM & F( 0.72, 0.70 ) = 0.71  & F( 0.77, 0.71 ) = 0.74 &  0.73\\
 \end{tabular}
 \label{table:thetable}
 \end{table*}
 
 
-Las curvas obtenidas para los métodos propuestos en este laboratorio comparten la misma deficiencia:  no pueden obtener en ningún caso la precisión de 1.0 (en general nunca es mejor de 0.5) ni la exhaustividad de 1.0 (se acerca a la frontera de 0.9). Esto indica que en ninguna de las combinaciones probadas dentro de este laboratorio (espacio de color y K) se logró un número mínimo de falsos positivos o falsos negativos. El desempeño de los dos métodos propuesto es bastante similar, sin embargo, se puede afirmar que la precision del metodo HSV+xy GMM es siempre superior a la del método LAB+xy GMM, a costa de un menor valor de precisión, es decir la segmentación de HSV+xy GMM contiene menos falsos positivos pero a su vez contiene más falsos negativos.
+Las curvas obtenidas para los métodos propuestos en este laboratorio comparten la misma deficiencia:  no pueden obtener en ningún caso la precisión de 1.0 (en general nunca es mejor de 0.5) ni la exhaustividad de 1.0 (se acerca a la frontera de 0.9). Esto indica que en ninguna de las combinaciones probadas dentro de este laboratorio (espacio de color y K) se logró un número cercano a cero de falsos positivos o falsos negativos. El desempeño de los dos métodos propuesto es bastante similar, sin embargo, se puede afirmar que la precision del metodo HSV+xy GMM es siempre superior a la del método LAB+xy GMM, a costa de un menor valor de precisión, es decir la segmentación de HSV+xy GMM contiene menos falsos positivos pero a su vez contiene más falsos negativos.
 
 
 \subsection{Análisis de resultados}
