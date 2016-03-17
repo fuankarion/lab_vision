@@ -46,23 +46,23 @@ Universidad de los Andes\\
 \maketitle
 %\thispagestyle{empty}
 
-%%%%%%%%% ABSTRACT
-\begin{abstract}
- 
-\end{abstract}
 
 %%%%%%%%% BODY TEXT
+
+\section{Introdiccion}
+El presente laboratio sirve como introducción al benchmark conocido como 'The Berkeley Segmentation Dataset and Benchmark' (BSD500), un datset y benchmak publico, que abordo por primera ves de forma sistematica y reroducible el problema de segmenetación de objetos en imagenes naturales. El objetivo principal es evaluar un conjunto de metodos de segementacion cosntruidos en el laboratorio previo y compararlos con el metodo ‘ultrametric contour map’ (UCM).
+
 \section{Métodos de segmentación:}
 Para  el presente laboratorio se seleccionaron 4 métodos de segmentación:
 
 \begin{description}
-\item[KMeans] Construye un conjunto de K clusters según K centroides que minimicen la suma total de las distancias de los puntos a los centroides \cite{Jain2010}
+\item[KMeans] Construye un conjunto de K clusters según K centroides que minimicen la suma total de las distancias de los puntos a los centroides \footnote{La implementacion se encuentra en KmeansSegment.m} \cite{Jain2010}
 
-\item[Gaussian Mixture Model] Construye un conjunto de K clusters donde se tiene un ajuste óptimo de los elementos a un conjunto de K gaussianas (clusters) parametrizadas con media  y matriz de covarianza . Para resolver algunos problemas de convergencia en la implementación de MATLAB se utilizó un regularizador con valor de 0.0001
+\item[Mezcla de Gaussianas (GMM)] Construye un conjunto de K clusters donde se tiene un ajuste óptimo de los elementos a un conjunto de K gaussianas (clusters) parametrizadas por un conjunto de K mediasy matrices de covarianza. \footnote{Para resolver algunos problemas de convergencia en la implementación de MATLAB se utilizó un regularizador con valor de 0.0001. La implementacion se encuentra en GMMSegment.m} \cite{Banfield1993}
 
-\item[Hierachical Cluster] Para cierta distancia D, se crea una jerarquía de elementos que son agrupados de manera jerárquica según la similaridad que existe entre ellos. Para la implementación de MATLAB se utilizó una distancia euclidiana normalizada por la desviación estándar.
+\item[Hierachical Cluster] Para cierta distancia D, se crea una jerarquía de elementos que son agrupados de manera jerárquica según la similaridad que existe entre ellos. \footnote{Para la implementación de MATLAB se utilizó una distancia euclidiana normalizada por la desviación estándar. La implementacion se encuentra en HierachicalSegment.m} \cite{Arifin2006}
 
-\item[Watershed] Debido a que el método base produce una sobre segmentación  de las imágenes en la base de datos. Se agregó una paso de inicialización donde se trata de estimar las regiones de la imagen donde existen objetos grandes y continuos a fin de evitar que el algoritmo de watershed genere clusters en esas regiones. Para este fin  se aplicó un filtro mediano a la imagen (eliminación de bordes espurios) sobre la imagen filtrada se aplicó el detector de bordes de canny y a los bordes se les realizó la operación morfológica de dilatación afin de para expandirlos.  Finalmente el inverso de la imagen fue utilizado como máscara para establecer las regiones donde el algoritmo de  watershed puede crear clusters.
+\item[Watershed] Debido a que el método base produce una sobre segmentación  de las imágenes en la base de datos. \footnote{Se agregó una paso de inicialización donde se trata de estimar las regiones de la imagen donde existen objetos grandes y continuos a fin de evitar que el algoritmo de watershed genere clusters en esas regiones. Para este fin  se aplicó un filtro mediano a la imagen (eliminación de bordes espurios) sobre la imagen filtrada se aplicó el detector de bordes de canny y a los bordes se les realizó la operación morfológica de dilatación afin de para expandirlos.  Finalmente el inverso de la imagen fue utilizado como máscara para establecer las regiones donde el. La implementacion se encuentra en WatershedSegment.m} \cite{Shafarenko1997}
 
 \end{description}
 
@@ -71,12 +71,12 @@ Para  el presente laboratorio se seleccionaron 4 métodos de segmentación:
 Las alternativas para el espacio de color fueron:
 
 \begin{description}
-\item[RGB] es el espacio de color utilizado por múltiples dispositivos electrónicos, los tres canales (rojo, verde y azul) están altamente correlacionados
-\item[LAB] Es una extensión del espacio de color CIE XYZ, que además de evitar la correlación entre canales es perceptualmente uniforme.
-\item[HSV] Al igual que LAB elimina la correlación entre los tres canales,  contiene información sobre el matiz, saturación y valor del color
+\item[RGB] es el espacio de color utilizado por múltiples dispositivos electrónicos, los tres canales (rojo, verde y azul) están altamente correlacionados \cite{Forsyth2002}
+\item[LAB] Es una extensión del espacio de color CIE XYZ, que además de evitar la correlación entre canales es perceptualmente uniforme.\cite{Forsyth2002}
+\item[HSV] Al igual que LAB elimina la correlación entre los tres canales,  contiene información sobre el matiz, saturación y valor del color\cite{Forsyth2002}
 \item[Coordenadas] Adicionalmente se utilizaron las coordenadas del pixel para agregar información espacial al proceso de segmentación.  Se tuvo cuidado de  normalizar los valores de color de los pixels (en cualquier espacio) y las coordenadas de tal manera que la magnitud de los dos fuera similar. Esto con el fin de evitar algún sesgo en el proceso de cluster hacia las coordenadas puesto que su rango de valores es mucho más grande que rango de valores de los espacios de color.
 \end{description}
-De esta manera se cuenta con 6 espacios de color
+De esta manera se cuenta con 6 espacios de color:
 
 \begin{itemize}
 \item RGB
@@ -90,17 +90,15 @@ De esta manera se cuenta con 6 espacios de color
 
 \subsection{Selección de los métodos}
 
-Existen 24 combinaciones iniciales de parámetros s se tiene en cuenta los espacios de color y métodos de segmentación (6 espacios de color, 4 métodos de segmentación).
+Existen 24 combinaciones iniciales de parámetros, se tiene en cuenta los espacios de color y métodos de segmentación (6 espacios de color, 4 métodos de segmentación).
 
-La cantidad de combinaciones aumenta si se considera  el valor de K que a priori puede tomar cualquier valor mayor 2 (1 es valor válido para cualquier método, pero produciría una segmentación trivial). A fin de estimar un rango de valores adecuado para K, analizamos el número de clusters en el set de ‘train’. Inicialmente calculamos el promedio de clusters de todas las imágenes en set de entrenamiento. Encontramos un promedio de 19.64, con una desviación estándar de 17.47. Esto indica que el 95\% de las imágenes tiene entre 0 y 55 anotaciones.
+La cantidad de combinaciones aumenta si se considera  el valor de K que a priori puede tomar cualquier valor mayor 2 (1 es un valor válido para cualquier método, pero produciría una segmentación trivial). A fin de estimar un rango de valores adecuado para K, analizamos el número de clusters en el set de ‘train’. Inicialmente calculamos el promedio de clusters de todas las imágenes en set de entrenamiento. Encontramos un promedio de 19.64 clusters, con una desviación estándar de 17.47. Esto indica que el 95\% de las imágenes tiene entre 0 y 55 anotaciones. Con este analisis inicial, una búsqueda exhaustiva de los mejores parámetros posibles implicaría segmentar cada imagen  1320 veces.  En la práctica no se cuenta con tanto tiempo disponible así que utilizamos dos estrategias para reducir el número de pruebas.
 
-Este análisis inicial indica que una búsqueda exhaustiva de los mejores parámetros posibles implicaría segmentar cada imagen  1320 veces.  En la práctica no se cuenta con tanto tiempo disponible así que utilizamos dos estrategias para reducir el número de pruebas.
-
-Primero estimamos un rango menors para K, si bien hay imagen que tiene una gran cantidad de clusters (hasta 95 anotaciones distintas) la mayoría de esta anotaciones cubren una región muy pequeña de la imagen. Con esto en mente se decidió incluir en el promedio solo aquellos clusters que ocupen más del 2\% de los pixels de la imagen (No existe una razón formal para elegir el umbral del 2\%, sin embargo, una clúster que agrupe menos del 2\% de los pixels imagen, agruparia menos de 60 pixels; Es poco probable que lo métodos utilizados tengan la capacidad de identificar y segmentar una región tan pequeña)
+Primero, estimamos un rango menor para K, si bien hay imagenes que tienen una gran cantidad de clusters (hasta 95 regiones anotadas distintas) la mayoría de esta regiones cubren un area muy pequeña en la imagen. Con esto en mente se decidió incluir en el promedio solo aquellos clusters que ocupen más del 2\% de los pixels de la imagen \footnote{No existe una razón formal para elegir el umbral del 2\%, sin embargo, un clúster que agrupe menos del 2\% de los pixels imagen, agruparia menos de 60 pixels; Es poco probable que los métodos utilizados tengan la capacidad de identificar y segmentar una región tan pequeña}
 
 Después de este cambio, se obtiene un promedio de 6.42 clusters por imagen, con una desviación estándar de 3.28. Esto indica que el 95\% de las imágenes tiene entre 2 y  13 clusters . Después de esta reducción se tiene todavía que segmentar cada imagen 244 veces, sumado al tiempo computacional de la evaluación del método, el tiempo de ejecución todavía es prohibitivo.
 
-Para solucionar esto se aplica una segunda reducción que consiste en escoger al azar un sub -set de 10 imágenes del dataset de ‘test’, aplicar los 4 métodos de segmentación, en 6 espacios de color y para un valor de K que corresponde a  la media (6). A fin de inspeccionar visualmente algunas de las 240 imágenes generadas. El objetivo es tratar de reconocer que combinación de parámetros produce una segmentación que visualmente parece más adecuada.
+Para solucionar esto, se aplica una segunda estraegia para evitar hacer pruebas exaustivas sobre todos los paramatros. Se escoge al azar un subconjunto de 10 imágenes del dataset de ‘test’, aplicar los 4 métodos de segmentación, en 6 espacios de color y para un valor de K que corresponde a  la media (6). A fin de inspeccionar visualmente algunas de las 240 imágenes generadas. El objetivo es tratar de reconocer que combinación de parámetros produce una segmentación que visualmente parece ser más adecuada.
 
 Algunas de las imágenes obtenidas se presentan en las figuras \ref{fig:sRGB}, \ref{fig:SLAB} y \ref{fig:SLABXY}
 
@@ -137,7 +135,7 @@ Se puede observar que, en general, los resultados de K-Means y Watershed tienden
 
 Los resultados del clustering jerárquico y el GMM son muy similares, sin embargo el cluster jerárquico incluye una operación de submuestreo de la imagen (para evitar consumir toda la memoria del computador). Al incrementar el tamaño de la imagen se pierden detalles especialmente el las zonas donde hay bordes o patrones de alta frecuencia espacial. Es posible que esta pérdida de información reduzca el desempeño durante la de evaluación. De esta manera se selecciona como mejor método el GMM.
 
-En cuanto a los espacios de color, la segmentación en el espacio de color RGB es bastante más ruidosa que los espacios de LAB y HSV (ver figura \ref{fig:sRGB} y figura \ref{fig:tiger}), esto se debe posiblemente a que los canales de RGB están bastante correlacionados y es poca la información adicional que se puede extraer si se utilizan 2 o 3 canales.
+En cuanto a los espacios de color, la segmentación en el espacio de color RGB es bastante más ruidosa que los espacios de LAB y HSV (ver figura \ref{fig:sRGB} y figura \ref{fig:tiger}), esto se debe, posiblemente, a que los canales de RGB están bastante correlacionados y es poca la información adicional que se puede extraer si se utilizan 2 o 3 canales.
 
 De esta manera se prefieren los espacios de color LAB y HSV sobre RGB. Finalmente la diferencia entre el uso o el no uso de las coordenadas no es evidente en ninguna de las imágenes de prueba, sin embargo, se prefiere el uso de las coordenadas a fin proveer información espacial al método de clustering.
 
@@ -152,7 +150,7 @@ De esta manera la inspección visual concluye con la selección de 2 métodos de
 
 \section{Dataset y Metodología de pruebas}
 
-La base de datos berkeley BSD500 contiene 503 imágenes  separadas en tres  grupos: training: (201) test (201) y validación (101) todas la imágenes tienen el mismo tamaño 481x321 píxeles, tiene formato jpg, son imágenes a color y se encuentran numeradas para poder ser identificadas dentro del dataset.
+La base de datos berkeley BSD500 contiene 500 imágenes  separadas en tres  grupos: training: (200) test (200) y validación (100) todas la imágenes tienen el mismo tamaño 481x321 píxeles, tienen formato jpg, son imágenes a color y se encuentran numeradas para poder ser identificadas dentro del dataset.
 La subdivisión del dataset tiene el siguiente objetivo: Sobre el conjunto de ‘train’ se prueba inicialmente los métodos de segmentación y se busca un conjunto de  hiperparametros que permita obtener la mejor segmentación posible. El conjunto de test existe para validar el modelo de aprendizaje y los paramentos encontrados en set de ‘train’ de tal manera que se tengan resultados aceptables dentro de un conjunto de imágenes no visto antes. Cuando se encuentra un modelo e hiperparametros que presentan un buen desempeño tanto en el conjunto de train como el de test, se usa el conjunto de validación para establecer la calidad del método (precisión, exhaustividad y F-Medida en este caso).
 
 \subsection{Verdad de terreno BSD500}
@@ -233,7 +231,9 @@ Finalmente el benchmark de BSD500 requiere que se utilicen varias configuración
 EL benchmark de BSD500 contiene algunos resultados generados con el método ‘ultrametric contour map’ (UCM), para demostrar el uso de la base de datos. Una vez se arreglan los paths para que coincida con la localización de los directorios en el disco local se puede correr sin problema el benchmark 3 que lleva el nombre ‘ 3. boundary benchmark for results stored as a cell of segmentations’ . El resultado es el siguiente:
 
 
-Los resultados obtenidos al correr el benchmark con los métodos seleccionados son los siguientes
+Los resultados obtenidos al correr el benchmark con los métodos seleccionados son los siguientes.
+
+Las curvas obtenidas para los metodos propuestos en este laboratorio compraten la misma deficiencia:  no pueden obtener en ningun caso la precision de 1.0 ni el exaustividad de 1.0. Esto indica que en ninguna de las combinaciones probadas dentro de este laboratorio (espacio de color y K) se logro evitar falsos positivos o falsos negativos.
 
 \section{Análisis de resultados}
 
