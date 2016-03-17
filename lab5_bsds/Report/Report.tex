@@ -50,7 +50,7 @@ Universidad de los Andes\\
 %%%%%%%%% BODY TEXT
 
 \section{Introducción}
-El presente laboratorio sirve como introducción al benchmark conocido como 'The Berkeley Segmentation Dataset and Benchmark' (BSD500), un dataset y benchmak público, que abordó por primera vez de forma sistemática y reproducible el problema de segmentación de objetos en imágenes naturales. El objetivo principal es evaluar un conjunto de métodos de segmentación construidos en el laboratorio previo y compararlos con el método ‘ultrametric contour map’ (UCM) \cite{Arbelaez2009}.
+El presente laboratorio sirve como introducción al benchmark conocido como 'The Berkeley Segmentation Dataset and Benchmark' (BSD500), un dataset y benchmak público, que abordó por primera vez de forma sistemática y reproducible el problema de segmentación de objetos en imágenes naturales. El objetivo principal de este laboratorio es evaluar un conjunto de métodos de segmentación construidos en el laboratorio previo y compararlos con el método ‘ultrametric contour map’ (UCM) \cite{Arbelaez2009}.
 
 \section{Métodos de segmentación:}
 Para  el presente laboratorio se seleccionaron 4 métodos de segmentación:
@@ -60,9 +60,9 @@ Para  el presente laboratorio se seleccionaron 4 métodos de segmentación:
 
 \item[Mezcla de Gaussianas (GMM)] Construye un conjunto de K clusters donde se tiene un ajuste óptimo de los elementos a un conjunto de K gaussianas (clusters) parametrizadas por un conjunto de K medias y matrices de covarianza. \footnote{Para resolver algunos problemas de convergencia en la implementación de MATLAB se utilizó un regularizador con valor de 0.0001. La implementación se encuentra en GMMSegment.m} \cite{Banfield1993}
 
-\item[Hierachical Cluster] Para cierta distancia D, se crea una jerarquía de elementos que son agrupados de manera jerárquica según la similaridad que existe entre ellos. \footnote{Para la implementación de MATLAB se utilizó una distancia euclidiana normalizada por la desviación estándar. La implementación se encuentra en HierachicalSegment.m} \cite{Arifin2006}
+\item[Hierachical Cluster] Para cierta distancia D, se crea una jerarquía de elementos que son agrupados  según la similaridad que existe entre ellos. \footnote{Para la implementación de MATLAB se utilizó una distancia euclidiana normalizada por la desviación estándar. La implementación se encuentra en HierachicalSegment.m} \cite{Arifin2006}
 
-\item[Watershed] Debido a que el método base produce una sobre segmentación  de las imágenes en la base de datos. \footnote{Se agregó una paso de inicialización donde se trata de estimar las regiones de la imagen donde existen objetos grandes y continuos a fin de evitar que el algoritmo de watershed genere clusters en esas regiones. Para este fin  se aplicó un filtro mediano a la imagen (eliminación de bordes espurios) sobre la imagen filtrada se aplicó el detector de bordes de canny y a los bordes se les realizó la operación morfológica de dilatación afin de para expandirlos.  Finalmente el inverso de la imagen fue utilizado como máscara para establecer las regiones donde el. La implementación se encuentra en WatershedSegment.m} \cite{Shafarenko1997}
+\item[Watershed] La imagen es interpretada como una región topográfica, sobre esta región se crean líneas divisorias de agua mediante la inundación simulada de los mínimos locales.  \footnote{Debido a que el método base produce una sobre segmentación  de las imágenes en la base de datos, se agregó una paso de inicialización donde se trata de estimar las regiones de la imagen donde existen objetos grandes y continuos a fin de evitar que el algoritmo de watershed genere clusters en esas regiones. Para este fin  se aplicó un filtro mediano a la imagen (eliminación de bordes espurios) sobre la imagen filtrada se aplicó el detector de bordes de canny y a los bordes se les realizó la operación morfológica de dilatación afin de para expandirlos.  Finalmente el inverso de la imagen fue utilizado como máscara para establecer las regiones donde el. La implementación se encuentra en WatershedSegment.m} \cite{Shafarenko1997}
 
 \end{description}
 
@@ -71,10 +71,10 @@ Para  el presente laboratorio se seleccionaron 4 métodos de segmentación:
 Las alternativas para el espacio de color fueron:
 
 \begin{description}
-\item[RGB] es el espacio de color utilizado por múltiples dispositivos electrónicos, los tres canales (rojo, verde y azul) están altamente correlacionados \cite{Forsyth2002}
+\item[RGB] Es el espacio de color utilizado por múltiples dispositivos electrónicos, los tres canales (rojo, verde y azul) están altamente correlacionados \cite{Forsyth2002}
 \item[LAB] Es una extensión del espacio de color CIE XYZ, que además de evitar la correlación entre canales es perceptualmente uniforme.\cite{Forsyth2002}
 \item[HSV] Al igual que LAB elimina la correlación entre los tres canales,  contiene información sobre el matiz, saturación y valor del color\cite{Forsyth2002}
-\item[Coordenadas] Adicionalmente se utilizaron las coordenadas del pixel para agregar información espacial al proceso de segmentación.  Se tuvo cuidado de  normalizar los valores de color de los pixels (en cualquier espacio) y las coordenadas de tal manera que la magnitud de los dos fuera similar. Esto con el fin de evitar algún sesgo en el proceso de cluster hacia las coordenadas puesto que su rango de valores es mucho más grande que rango de valores de los espacios de color.
+\item[Coordenadas] Adicionalmente se utilizaron las coordenadas del pixel para agregar información espacial al proceso de segmentación.  Se tuvo cuidado de  normalizar los valores de color de los pixels (en cualquier espacio) y las coordenadas de tal manera que la magnitud de los dos fuera similar. Esto con el fin de evitar algún sesgo en el proceso de cluster hacia las coordenadas puesto que su rango de valores es mucho más grande que el rango de valores de los espacios de color.
 \end{description}
 De esta manera se cuenta con 6 espacios de color:
 
@@ -94,7 +94,7 @@ Existen 24 combinaciones iniciales de parámetros, se tiene en cuenta los espaci
 
 La cantidad de combinaciones aumenta si se considera  el valor de K que a priori puede tomar cualquier valor mayor 2 (1 es un valor válido para cualquier método, pero produciría una segmentación trivial). A fin de estimar un rango de valores adecuado para K, analizamos el número de clusters en el set de ‘train’. Inicialmente calculamos el promedio de clusters de todas las imágenes en set de entrenamiento. Encontramos un promedio de 19.64 clusters, con una desviación estándar de 17.47. Esto indica que el 95\% de las imágenes tiene entre 0 y 55 anotaciones. Con este análisis inicial, una búsqueda exhaustiva de los mejores parámetros posibles implicaría segmentar cada imagen  1320 veces.  En la práctica no se cuenta con tanto tiempo disponible así que utilizamos dos estrategias para reducir el número de pruebas.
 
-Primero, estimamos un rango menor para K, si bien hay imágenes que tienen una gran cantidad de clusters (hasta 95 regiones anotadas distintas) la mayoría de esta regiones cubren un área muy pequeña en la imagen. Con esto en mente se decidió incluir en el promedio solo aquellos clusters que ocupen más del 2\% de los pixels de la imagen \footnote{No existe una razón formal para elegir el umbral del 2\%, sin embargo, un clúster que agrupa menos del 2\% de los pixels imagen, agruparia menos de 60 pixels; Es poco probable que los métodos utilizados tengan la capacidad de identificar y segmentar una región tan pequeña}
+Primero, estimamos un rango menor para K, si bien hay imágenes que tienen una gran cantidad de clusters (hasta 95 regiones anotadas) la mayoría de estas regiones cubren un área muy pequeña en la imagen. Con esto en mente, se decidió incluir en el promedio solo aquellos clusters que ocupen más del 2\% de los pixels de la imagen \footnote{No existe una razón formal para elegir el umbral del 2\%, sin embargo, un clúster que agrupa menos del 2\% de los pixels imagen, agruparia menos de 60 pixels; Es poco probable que los métodos utilizados tengan la capacidad de identificar y segmentar una región tan pequeña}
 
 Después de este cambio, se obtiene un promedio de 6.42 clusters por imagen, con una desviación estándar de 3.28. Esto indica que el 95\% de las imágenes tiene entre 2 y  13 clusters . Después de esta reducción se tiene todavía que segmentar cada imagen 244 veces, sumado al tiempo computacional de la evaluación del método, el tiempo de ejecución todavía es prohibitivo.
 
@@ -106,27 +106,27 @@ Algunas de las imágenes obtenidas se presentan en las figuras \ref{fig:sRGB}, \
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                 {img/RGSample.jpg}
+                {img/RGSample.jpg}
 \end{center}
- \caption{Segmentación usando RGB de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
+\caption{Segmentación usando RGB de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
 \label{fig:sRGB}
 \end{figure*}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                 {img/LABSample.jpg}
+                {img/LABSample.jpg}
 \end{center}
- \caption{Segmentación usando LAB de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
+\caption{Segmentación usando LAB de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
 \label{fig:SLAB}
 \end{figure*}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                 {img/LABXYSample.jpg}
+                {img/LABXYSample.jpg}
 \end{center}
- \caption{Segmentación usando LAB+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
+\caption{Segmentación usando LAB+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6.}
 \label{fig:SLABXY}
 \end{figure*}
 
@@ -164,8 +164,8 @@ La anotación tiene el mismo tamaño de la imagen original y consta de un único
 \begin{figure}
 
 \includegraphics[width=0.85\linewidth]
-                 {img/Imagesc.png}
- \caption{Visualización del ground Truth de una de las imágenes en el dataset}
+                {img/Imagesc.png}
+\caption{Visualización del ground Truth de una de las imágenes en el dataset}
 \label{fig:short2}
 \end{figure}
 
@@ -185,45 +185,45 @@ Finalmente el benchmark de BSD500 requiere que se utilicen varias configuración
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                 {img/Kidshsvxy.jpg}
+                {img/Kidshsvxy.jpg}
 \end{center}
- \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Se observa que el método no es capaz de considerar el rosto de las personas y su ropa como un único objeto}
+\caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Se observa que el método no es capaz de considerar el rosto de las personas y su ropa como un único objeto}
 \label{fig:kids}
 \end{figure*}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                 {img/Tigerhsvxy.jpg}
+                {img/Tigerhsvxy.jpg}
 \end{center}
- \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Se observa que el método clasifica las rayas del tigre y su sombra como objetos aparte}
+\caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Se observa que el método clasifica las rayas del tigre y su sombra como objetos aparte}
 \label{fig:tiger}
 \end{figure*}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                 {img/Heli.jpg}
+                {img/Heli.jpg}
 \end{center}
- \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Cambios abruptos de iluminación (como en el vidrio del helicóptero) genera objetos inexistentes}
+\caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Cambios abruptos de iluminación (como en el vidrio del helicóptero) genera objetos inexistentes}
 \label{fig:heli}
 \end{figure*}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=0.95\linewidth]
-                 {img/Pyramid.jpg}
-\end{center}
- \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Objetos muy grandes como el cielo tienden a ser divididos en varios elementos}
-\label{fig:pyra}
-\end{figure}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                 {img/woman.jpg}
+                {img/Pyramid.jpg}
 \end{center}
- \caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Objetos grandes con texturas complejas tienden a ser sobre segmentados}
+\caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Objetos muy grandes como el cielo tienden a ser divididos en varios elementos}
+\label{fig:pyra}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=0.95\linewidth]
+                {img/woman.jpg}
+\end{center}
+\caption{Segmentación usando HSV+xy de izquierda a derecha: original,Kmeans,GMM,Cluster jerárquico, y watershed. k=6. Objetos grandes con texturas complejas tienden a ser sobre segmentados}
 \label{fig:woman}
 \end{figure*}
 
@@ -233,32 +233,34 @@ Finalmente el benchmark de BSD500 requiere que se utilicen varias configuración
 El benchmark de BSD500 contiene algunos resultados generados con el método ‘ultrametric contour map’ (UCM), para demostrar el uso de la base de datos. Una vez se arreglan los paths para que coincida con la localización de los directorios en el disco local se puede correr sin problema el benchmark 3 que lleva el nombre ‘ 3. boundary benchmark for results stored as a cell of segmentations’ . El resultado es el siguiente:
 
 
-Los resultados obtenidos al correr el benchmark con los métodos seleccionados se presnetan el la tabla \ref{table:thetable} y la firgura \ref{fig:plot} .
+
+
+Los resultados obtenidos al correr el benchmark con los métodos seleccionados en el laboratorio, el método de UCM sobre el set completo de validación se presentan en la tabla \ref{table:thetable} y la firgura \ref{fig:plot} .
 
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=1.15\linewidth]
-                 {img/metods.jpg}
+                {img/metods.jpg}
 \end{center}
- \caption{Curvas de precision y recall para los metodos usados en el laboratorio}
+\caption{Curvas de precision y recall para los métodos usados en el laboratorio. EN negro se tiene la curva de HSV+xy GMM, en rojo la curva de LAB+xy GMM y en magenta la curva del UCM}
 \label{fig:plot}
 \end{figure}
 
 \begin{table*}[t]
 \centering
 \begin{tabular}{c | c | c | c }
- Metodo & ODS & OID & AreaPR  \\
- \hline	
- LAB+xy GMM & F( 0.78, 0.38 ) = 0.51  & F( 0.80, 0.45 ) = 0.58 & 0.27 \\
- HSB+xy GMM &  &  &  \\
- UCM &  &  &  \\
+Metodo & ODS & OID & AreaPR  \\
+\hline	
+LAB+xy GMM & F( 0.78, 0.38 ) = 0.51  & F( 0.80, 0.45 ) = 0.58 & 0.27 \\
+HSB+xy GMM &  &  &  \\
+UCM &  &  &  \\
 \end{tabular}
 \label{table:thetable}
 \end{table*}
 
 
-Las curvas obtenidas para los métodos propuestos en este laboratorio comparten la misma deficiencia:  no pueden obtener en ningún caso la precisión de 1.0 ni el exhaustividad de 1.0. Esto indica que en ninguna de las combinaciones probadas dentro de este laboratorio (espacio de color y K) se logró evitar falsos positivos o falsos negativos.
+Las curvas obtenidas para los métodos propuestos en este laboratorio comparten la misma deficiencia:  no pueden obtener en ningún caso la precisión de 1.0 (en general nunca es mejor de 0.5) ni la exhaustividad de 1.0 (se acerca a la frontera de 0.9). Esto indica que en ninguna de las combinaciones probadas dentro de este laboratorio (espacio de color y K) se logró un número mínimo de falsos positivos o falsos negativos. El desempeño de los dos métodos propuesto es bastante similar, sin embargo, se puede afirmar que la precision del metodo HSV+xy GMM es siempre superior a la del método LAB+xy GMM, a costa de un menor valor de precisión, es decir la segmentación de HSV+xy GMM contiene menos falsos positivos pero a su vez contiene más falsos negativos.
 
 
 \subsection{Análisis de resultados}
@@ -294,7 +296,3 @@ En un escenario real en el que se requiera aplicar un método de segmentación, 
 }
 
 \end{document}
-
-
-
-
