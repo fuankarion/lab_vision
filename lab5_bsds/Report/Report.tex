@@ -102,24 +102,54 @@ Después de este cambio, se obtiene un promedio de 6.42 clusters por imagen, con
 
 Para solucionar esto se aplica una segunda reducción que consiste en escoger al azar un sub -set de 10 imágenes del dataset de ‘test’, aplicar los 4 métodos de segmentación, en 6 espacios de color y para un valor de K que corresponde a  la media (6). A fin de inspeccionar visualmente algunas de las 240 imágenes generadas. El objetivo es tratar de reconocer que combinación de parámetros produce una segmentación que visualmente parece más adecuada.
 
-A continuación presentamos algunas de las imágenes
+Algunas de las imágenes obtenidas se preenentan en las figuras \ref{fig:sRGB}, \ref{fig:SLAB} y \ref{fig:SLABXY}
+
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=0.95\linewidth]
-                   {img/Kidshsvxy.jpg}
+                   {img/RGSample.jpg}
 \end{center}
-   \caption{Ecaption}
-\label{fig:short}
+   \caption{Segmentacion usando RGB de izquierda a derecha: orignal,Kmeans,GMM,Cluster jerarquico, y watershed. k=6.}
+\label{fig:sRGB}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=0.95\linewidth]
+                   {img/LABSample.jpg}
+\end{center}
+   \caption{Segmentacion usando LAB de izquierda a derecha: orignal,Kmeans,GMM,Cluster jerarquico, y watershed. k=6.}
+\label{fig:SLAB}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=0.95\linewidth]
+                   {img/LABXYSample.jpg}
+\end{center}
+   \caption{Segmentacion usando LAB+xy de izquierda a derecha: orignal,Kmeans,GMM,Cluster jerarquico, y watershed. k=6.}
+\label{fig:SLABXY}
 \end{figure*}
 
 
-A partir de la inspección visual se seleccionaron 2 métodos 
+Se puede observar que, en general, los resultados de K-Means y Watersehd tienden a estar sobre segmenetados, (especialmente el caso del watershed). Esta sobre segmentación fue el principal argumento para descartrat los metodos de K-Means y watershed aun cuando se uilicen los espacions de colores aumentados con las coordenadas xy.
+
+Los resultados del clustering erarquico y el GMM son muy similares, sin embargo el cluster jerarquico incluye una operacion de submuestreo de la imagen (para evitar consumir toda la memoria del computrador). Al incrementar el tamaño de la imagen se pierden detalles especilamente el las zonas donde hay bodes o patrones de lata frecuencia espacial. Es posible que etsa perdida de información redusca el desempeño durante la de evalauacion. De esta menera se selecciona como mejor metodo el GMM.
+
+En cuanto a los espacios de color, la segmentación en el espacio de color RGB es batsnate mas ruidosa que los espacios de LAB y HSV (ver figura \ref{fig:sRGB} y figura \ref{fig:tiger}), esto se debe posiblemente a que los canales de RGB estan basnate correlacionados y es poca la información adicional que se puede extraer si se utilizan 2 o 3 canales.
+
+De esta manera se prefieren los espacios de color LAB y HSV sobre RGB. Finalmente la difierencia entre el uso o el no uso de las coordenadas no es evidente en ninguna de las imagenes de prueba, sin embargo, se prefiere el uso de las coordenas a fin porvver información espacial al metodo de clustering.
+
+
+De esta manera la inspección visual concluye con la seleccion de 2 métodos de clustering
 \begin{enumerate}
-	\item Espacio de color LAB+xy y cluster por modelo gaussiano mixto
-	\item Espacio de color HSV+xy y cluster por modelo gaussiano mixto
+	\item Espacio de color LAB+xy y cluster por GMM
+	\item Espacio de color HSV+xy y cluster por GMM
 \end{enumerate}
-	
+
+
+
 \section{Dataset y Metodología de pruebas}
 
 La base de datos berkeley BSD500 contiene 503 imágenes  separadas en tres  grupos: training: (201) test (201) y validación (101) todas la imágenes tienen el mismo tamaño 481x321 píxeles, tiene formato jpg, son imágenes a color y se encuentran numeradas para poder ser identificadas dentro del dataset.
@@ -131,7 +161,6 @@ Cada uno de las subdivisiones del dataset cuenta con una ‘verdad de terreno’
 ‘gt=load('.../BSR/BSDS500/data/groundTruth/2018.mat')’
 La anotación tiene el mismo tamaño de la imagen original y consta de un único número entero para designar el cluster (el objeto) al que pertenece el píxel. Con ayuda de la función ‘imagesc’ de MATLAB se puede visualizar algunas de las verdades de terreno.
 
-
 \begin{figure}
 
 \includegraphics[width=0.85\linewidth]
@@ -139,7 +168,6 @@ La anotación tiene el mismo tamaño de la imagen original y consta de un único
    \caption{Ecaption}
 \label{fig:short2}
 \end{figure}
-
 
 \subsection{Benchmark  BSD500}
 El objetivo principal del benchmark construido sobre BSD500 es ofrecer una metodología estandarizada para la evaluación de métodos de segmentación en imágenes naturales. La metodología está basada en la evaluación de las métricas de:
@@ -153,6 +181,51 @@ El objetivo principal del benchmark construido sobre BSD500 es ofrecer una metod
 \item[F-Medida] (F-MEasure)  es una métrica global que integra la precisión y la exhaustividad. Entregando un puntaje entre 0 y 1. 1 es un puntaje perfecto.
 Finalmente el benchmark de BSD500 requiere que se utilicen varias configuración de hiperparametros para así mismo construir varias resultados en la segmentación,  esto con el fin de crear una curva que representa el desempeño del método.
 \end{description}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=0.95\linewidth]
+                   {img/Kidshsvxy.jpg}
+\end{center}
+   \caption{Segmentacion usando HSV+xy de izquierda a derecha: orignal,Kmeans,GMM,Cluster jerarquico, y watershed. k=6. Se observa que el metodo noes capas de considerar el rosto de las personas y su ropa como un unico objeto}
+\label{fig:kids}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=0.95\linewidth]
+                   {img/Tigerhsvxy.jpg}
+\end{center}
+   \caption{Segmentacion usando HSV+xy de izquierda a derecha: orignal,Kmeans,GMM,Cluster jerarquico, y watershed. k=6. Se observa que el metodo clasifica la srayas del tigre y su sombra como objetos aparte}
+\label{fig:tiger}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=0.95\linewidth]
+                   {img/Heli.jpg}
+\end{center}
+   \caption{Segmentacion usando HSV+xy de izquierda a derecha: orignal,Kmeans,GMM,Cluster jerarquico, y watershed. k=6. Cambios abruptos de iluminacion (como en el vidro del helicoptero) genera objetos inexistentes}
+\label{fig:heli}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=0.95\linewidth]
+                   {img/Pyramid.jpg}
+\end{center}
+   \caption{Segmentacion usando HSV+xy de izquierda a derecha: orignal,Kmeans,GMM,Cluster jerarquico, y watershed. k=6. Objetos muy grandes como el cileo tienden a ser divididos en varios elementos}
+\label{fig:pyra}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=0.95\linewidth]
+                   {img/woman.jpg}
+\end{center}
+   \caption{Segmentacion usando HSV+xy de izquierda a derecha: orignal,Kmeans,GMM,Cluster jerarquico, y watershed. k=6. Objetos grandes con texturas complejas tienden a ser sobresegmentados}
+\label{fig:pyra}
+\end{figure*}
 
 
 \section{Resultados}
