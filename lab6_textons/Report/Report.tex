@@ -5,6 +5,7 @@
 \usepackage{tikz} % Package for drawing
 \usepackage{amsmath}
 \usepackage{hyperref}
+\usepackage[colorinlistoftodos]{todonotes}
 
 \title{Lab 06-Textons and classifiers}
 \author{Juan Carlos Leon Alcazar}
@@ -20,25 +21,28 @@ The database\cite{Lazebnik2005} contains 1000 gray scale images in JPG format, e
 
 
 
+\section{Methodlogy}
 
-\section{...}
+The first step in the classifiaction is the construction of a texton dictionary from the subset 'train'.  Due to memory constrains, it was not possible to build this dictionary with the complete train set (750 images). Creating a texton dictionary with a set of 40 images requires about 42 GB of RAM memory (At peak), while requiring about 3 hors procesing time. For the experiments that follow  a single 115GB RAM machine was avaialabe. Thus the trainign set was reduced to 85 images. 
 
-Time considwerations. 
+We have not a clear way to subsample the original training set so thta variability is not significvcanly changed, in other words, this reduction in the trainig set could create a large bias.
 
-The tetxon calculation is a time consuming task, the following table sumarizes the timae taken according to the amount of images utilized to build the database
+However the natre of the dataset might help to mitigate this issue: textures are essentially local patterns repeated, with some variability, at the global level. Thus it can be assumed that each image constins several instances of these local patters that already containsome of the variability of the texture.
+
+To further test this hypotesis...  \todo{btreve experimento con 4 histogramas T1,5Imagenes T1n30I mages, T2n5Imagens,T2n30Imagenes, distancia chi-cuadrado}
 
 
-\begin{tabular}{ c | c | c }		
-  images & resolution & time (S) \\
-  \hline	
-  1 &  & 58\\
-  2 &  & 170 \\
-  3 &  & 250 \\
-  4 &  & 389 \\
-  5 &  & 495 \\
-  \hline  
-\end{tabular}
+\subsection{Textons}
+After selecting the initial number of training images, there remains one final parameter for the construction of the texton dictionary. We use a number of textons given by $N=k32$ ($K={1,2,3}$). The explanation behind this choice is that we expected the local patterns to closely match the shape of the filter bank; This is the case of k=1 $\rightarrow$ N=32 
+How ever, not every the local pattern will match perfectly one of the textons on the filterbank. This is the case of $K={2,3}$ where the resulting clusters might contain resposne infomation cretaed by combining filter responses. No further values for $K$ are explored mostly, due to time constrains.
+ 
+The final setup for the texton dictionary construction is the following:
 
+\begin{itemize}
+	\item Filter Bank: default filterbank provide in the implementatios 16 orientaions, 2 scales
+	\item Number of training images: 85 (5 per each class)
+	\item Number of clusters ($N$):  32,64,96
+\end{itemize}
 
 
 \begin{figure}[!htbp]
