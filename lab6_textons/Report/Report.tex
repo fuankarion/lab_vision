@@ -26,108 +26,37 @@ Overall the mothodology used in this laboratory is presneten in figure ....
 
 
 
-The first step in the classifiaction pipeline is the construction of a texton dictionary from the subset 'train'.  Due to hardware constrains, it was not possible to build this dictionary with the complete train set (750 images). Creating a texton dictionary with a set of 40 images requires about 45 GB of RAM memory (At peak), while requiring about 3 hours CPU time. For the experiments, a single 115GB RAM machine was availabe. For this reason the training set was reduced to 85 images (5 images per class). 
+The original first step in the pipeline was the construction of a texton dictionary from the subset 'train'.  However, due to hardware constrains, it was not possible to build this dictionary with the complete train set (750 images). Creating a texton dictionary with a set of 40 images already requires about 45 GB of RAM memory (At peak), and about 3 hours CPU time. For the experiments, a single 115GB RAM machine was availabe. As it was not possible to crate a dictionary with the ful trainign set, it was reduced to 85 images (5 images per class). 
 
-There is not a clear way to subsample the original training set to the selected size while retaining the original data variability, in other words, this sub samplig ofthe trainig set should create some bias.
-
-However the nature of the dataset might help to mitigate this issue: textures are essentially local patterns repeated, with some variability, at the global level. Thus it can be assumed that each image constins several instances of these local patters that already containsome of the variability of the texture.
+There is not a clear way to subsample the original training set while retaining the original data variability, in other words, it is expected that this sub samplig process should create some bias in the dictionary. However the nature of the dataset might help to mitigate this issue: textures are essentially local patterns repeated, with some variability, at the global level. Thus it can be assumed that each image contains several instances of these local patters, that already contain some of the variability of the texture.
 
 To further test this hypotesis...  \todo{btreve experimento con 4 histogramas T1,5Imagenes T1n30I mages, T2n5Imagens,T2n30Imagenes, distancia chi-cuadrado}
 
 
 \subsection{Textons}
-After selecting the initial number of training images, there remains one final parameter for the construction of the texton dictionary. We use a number of textons given by $N=k32$ ($K={1,2,3}$). The explanation behind this choice is that we expected the local patterns to closely match the shape of the filter bank; This is the case of k=1 $\rightarrow$ N=32 
-How ever, not every the local pattern will match perfectly one of the textons on the filterbank. This is the case of $K={2,3}$ where the resulting clusters might contain resposne infomation cretaed by combining filter responses. No further values for $K$ are explored mostly, due to time constrains.
+After selecting the initial number of training images, there remains one final parameter for the construction of the texton dictionary, namely the K for the K means. For this matter we use a number of textons given by $K=c32$ ($c={1,2,3}$). The explanation behind this choice is that we expected the local patterns to closely match the shape of the filter bank; This is the case of c=1 $\rightarrow$ K=32. However, not every local pattern will match perfectly one of the textons on the filterbank. This is the case of $K={2,3}$ where the resulting clusters might contain the response infomation of several fillters. No further values for $c$ are explored mostly, due to time constrains.
  
 The final setup for the texton dictionary construction is the following:
 
 \begin{itemize}
 	\item Filter Bank: default filterbank provide in the implementatios 16 orientaions, 2 scales
 	\item Number of training images: 85 (5 per each class)
-	\item Number of clusters ($N$):  32,64,96
+	\item Number of clusters ($N$):  32, 64, 96
 \end{itemize}
 
+\subsection{Texton Calculation on Test Set}
 
-\begin{figure}[!htbp]
-\begin{center}
-\begin{tikzpicture}
-\draw[domain=-2:2, color=blue] plot (\x, {1 - (\x)^2}) node[above = .5cm, right, color=blue] {$f(x)=1-x^2$};
-\draw[domain=-2:2, color=red] plot(\x,-1 * \x + 1.25) node[above = .5cm, right, color=red] {Tangent at $x=.5$};
-\draw [thick, ->] (-3,0) -- (3,0) node [above] {$x$};
-\draw [thick, ->] (0,-3) -- (0,3) node [right] {$y$};
-\node at (.5,.75) {\textbullet};
-\end{tikzpicture}
-\end{center}
-\caption{The plot of $f(x)=1-x^2$ with a tangent at $x=.5$.}\label{exampleplot}
-\end{figure}
+With the 3 Texton dicionaries built we then calculate response of every image in the tets set filtered with the obtained textons. for each image we obtain 3 responses (3 dictionaries) wich are the repseneted by menas of an histogram where th number of nins depends on the value of K used for the construcction of the dictionary.
 
-Differentiation is now a technique taught to mathematics students throughout the world. In this document I will discuss some aspects of differentiation.
+\subsection{Classification}
+There are two methdos selectd for the classfication of the textures
 
-\section{Exploring the derivative using Sage}
+\begin{description}
 
-The definition of the limit of $f(x)$ at $x=a$ denoted as $f'(a)$ is:
+\item[Nearest Neighborg] \cite{}
+\item[Random Forest] \cite{}
 
-\begin{equation}
-f'(a) = \lim_{h\to0}\frac{f(a+h)-f(a)}{h}
-\end{equation}
-
-The following code can be used in sage to give the above limit:
-
-\begin{verbatim}
-def illustrate(f, a):
-    """
-    Function to take a function and illustrate the limiting definition of a derivative at a given point.
-    """
-    lst = []
-    for h in srange(.01, 3, .01):
-    	lst.append([h,(f(a+h)-f(a))/h])
-    return list_plot(lst, axes_labels=['$x$','$\\frac{f(%.02f+h)-f(%.02f)}{h}$' % (a,a)])
-\end{verbatim}
-
-
-
-If we want to plot the tangent at a point $\alpha$ to a function we can use the following:
-
-\begin{align}
-y=&ax+b&&\text{(definition of a straight line)}\nonumber\\
-  &f'(a)x+b&&\text{(definition of the derivative)}\nonumber\\
-  &f'(a)x+f(a)-f'(a)a&&\text{(we know that the line intersects $f$ at $(a,f(a))$}\nonumber
-\end{align}
-
-We can combine this with the approach of the previous piece of code to see how the tangential line converges as the limiting definition of the derivative converges:
-
-\begin{verbatim}
-def convergetangentialline(f, a, x1, x2, nbrofplots=50, epsilon=.1):
-    """
-    Function to make a tangential line converge
-    """
-    clrs = rainbow(nbrofplots)
-    k = 0
-    h = epsilon
-    p = plot(f, x, x1, x2)
-    while k < nbrofplots:
-        tangent(x) = fdash(f, a, h) * x + f(a) - fdash(f, a, h) * a
-        p += plot(tangent(x), x, x1, x2, color=clrs[k])
-        h += epsilon
-        k += 1
-    return p
-\end{verbatim}
-
-The plot shown in Figure \ref{lines} shows how the lines shown converge to the actual tangent to $1-x^2$ as $x=2$ (the red line is the `closest' curve).
-
-
-Note here that the last plot is given using the \textbf{real} definition of the derivative and not the approximation.
-
-\section{Conclusions}
-
-In this report I have explored the limiting definition of the limit showing how as $h\to 0$ we can visualise the derivative of a function. The code involved \url{https://sage.maths.cf.ac.uk/home/pub/18/} uses the differentiation capabilities of Sage but also the plotting abilities.
-
-There are various other aspects that could be explored such as symbolic differentiation rules. For example:
-
-$$\frac{dx^n}{dx}=(n+1)x^{n}\text{ if }x\ne-1$$
-
-Furthermore it is interesting to not that there exists some functions that \textbf{are not} differentiable at a point such as the function $f(x)=\sin(1/x)$ which is not differentiable at $x=0$. A plot of this function is shown in Figure \ref{notdiff}.
-
+\end{description}
 
 
 
