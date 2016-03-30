@@ -1,59 +1,37 @@
+%%KM is ke for the k-means algorithm
+%%assumes there are n subdir in mainDir, with the images, each subdir is a
+%%class
+function calculateTextonDictAndMap(km,mainDir,targetDir)
+    addpath('/home/jcleon/storage/disk0/Other/code/lab_vision/lab6_textons/lib')
+    clear all;close all;clc;
 
-addpath('/home/fuanka/Dokumente/CV/lab_vision/lab6_textons/lib')
-clear all;close all;clc;
+    % create filter bank
+    [fb] = fbCreate;
 
-% create filter bank
-[fb] = fbCreate;
+    D=dir(mainDir);
 
-sizefb=size(fb)
-filterSize=fb{1,1}
+    singleTextureFullTestSet=double(zeros(0,0));
+    for i=3:numel(D)% skip .. and . which are files in linux
+        D(i).name
+        F=dir(strcat(mainDir,D(i).name,'/*.jpg'));
+        randomImgIdx=round(rand(1,5)*29)
+        for j=1:numel(randomImgIdx)
+            name=strcat(mainDir,D(i).name,'/',F(randomImgIdx(j)).name)
+            im=double(imread(name))/255;
+            singleTextureFullTestSet=[singleTextureFullTestSet im];
+            size(singleTextureFullTestSet)
+        end
+    end
 
-fbCol1=zeros(0,0);
-for i=1:sizefb(1)
-    fbCol1=vertcat(fbCol1,fb{i,1});
+    % diccionario de textones
+    warning('calculate textons')
+    tic
+    [map,textons] = computeTextons(fbRun(fb,singleTextureFullTestSet),km);
+    toc
+
+    save(strcat(targetDir,'/map.mat'),'map') 
+    save(strcat(targetDir,'/textons.mat'),'textons') 
 end
 
-fbCol2=zeros(0,0);
-for i=1:sizefb(1)
-    fbCol2=vertcat(fbCol2,fb{i,2});
-end
 
-size(fbCol1)
-size(fbCol2)
-imshow(mat2gray(fbCol1));
-imshow(mat2gray(fbCol2));
-drawnow;
-
-% imagen de referencia para construir diccionario de textones
-im1=double(imread('/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/test/T09_32.jpg'))/255;
-im2=double(imread('/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/test/T04_38.jpg'))/255;
-
-im = [im1 im2];
-% numero de textones en diccionario
-k = 10;
-
-% diccionario de textones
-[map,textons] = computeTextons(fbRun(fb,im),k);
-
-
-size(map)
-size(im)
-size(textons)
-textons
-
-
-% figure;imshow(map,[]);colormap(jet);
-% 
-% D=dir('/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/test/subSample/*.jpg');
-% % texton maps de dos nuevas imagenes
-% for i=1:numel(D),
-%     im2=double(imread(strcat('/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/test/subSample/',D(i).name)))/255;
-%     tmap = assignTextons(fbRun(fb,im2),textons');
-%     
-%     % la distribucion de textones en la oveja deberia ser similar a la de la
-%     % imagen de referencia.
-%     figure;subplot(1,2,1);imshow(tmap,[]);colormap(jet);
-%     subplot(1,2,2);bar(histc(tmap(:),1:k)/numel(tmap));
-%     drawnow;
-% end
 
