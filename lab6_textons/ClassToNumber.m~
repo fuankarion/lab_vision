@@ -1,33 +1,32 @@
-function [ class ] = labelToClass( label )
-    label
-    class=''
-        switch label
-        case 'T01'
-            class='bark';
-        case 'T02'
-            class='bark';
+function [ number ] = ClassToNumber( class )
+    number=0;
+    switch class
+        case 'bark'
+            number=1;
+        case 'wood'
+             number=2;
         case 'T03'
-            class='bark';
+             number=3;
         case 'T04'
-            class='wood';
+             number=4;
         case 'T05'
-            class='wood';
+             number=5;
         case 'T06'
-            class='wood';
+            number=6;
         case 'T07'
-            class='water';
+             number=7;
         case 'T08'
-            class='granite';
+             number=8;
         case 'T09'
-            class='marble';
+             number=9;
         case 'T10'
-            class='floor';
+             number=10;
         case 'T11'
-            class='floor';
+            number=10;
         case 'T12'
-            class='pebbles';
+           number=10;
         case 'T13'
-            class='wall';
+            number=10;
         case 'T14'
             class='brick';
         case 'T15'
@@ -55,6 +54,7 @@ function [ class ] = labelToClass( label )
         otherwise
            error('da fuq?')
     end
+
 
 end
 

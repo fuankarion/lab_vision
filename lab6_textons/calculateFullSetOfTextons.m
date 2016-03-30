@@ -1,4 +1,6 @@
-function [ output_args ] = calculateFullSetOfTextons( mainDir,targetDir )
+function [ output_args ] = calculateFullSetOfTextons( mainDir,targetDir32,targetDir64,targetDir96)
+
+    addpath('/home/fuanka/Dokumente/CV/lab_vision/lab6_textons/lib')
 
     textons32=load('/home/fuanka/Malik/storage/disk0/Other/textures/calculatedTextons32/textons.mat');
     %textons64=load('/home/fuanka/Malik/storage/disk0/Other/textures/calculatedTextons64/textons.mat');
@@ -19,10 +21,13 @@ function [ output_args ] = calculateFullSetOfTextons( mainDir,targetDir )
             img=imread(name);
            
             tFeats32=calculateTextonsFromDict(textons32.textons,fb,img, 32);
-            save(strcat(targetDir,'/',F(j).name(1:nameSize(2)-3),'mat'),'tFeats32') 
+            save(strcat(targetDir32,'/',F(j).name(1:nameSize(2)-3),'mat'),'tFeats32') 
             
-            %calculateTextonsFromDict(textons64.textons,fb,img, 64)
-            tFeats64=calculateTextonsFromDict(textons96.textons,fb,img, 96);
+            %tFeats64=calculateTextonsFromDict(textons64.textons,fb,img, 64)
+            %save(strcat(targetDir64,'/',F(j).name(1:nameSize(2)-3),'mat'),'tFeats64') 
+            
+            tFeats96=calculateTextonsFromDict(textons96.textons,fb,img, 96);
+            save(strcat(targetDir96,'/',F(j).name(1:nameSize(2)-3),'mat'),'tFeats96') 
             
         end
     end
