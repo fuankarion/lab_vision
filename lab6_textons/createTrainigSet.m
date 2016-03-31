@@ -4,7 +4,7 @@ function [finalDescriptor, finalLabels] = createTrainigSet( trainDir )
      
      %sample for size calc
      textonsResponses=load(strcat(trainDir,'/',D(1).name));
-     textonsResponses=textonsResponses.tFeats96;
+     textonsResponses=textonsResponses.tFeats32;
      testSize=size(textonsResponses);
          
      finalDescriptor=zeros(numel(D),testSize(1)*testSize(2));
@@ -16,7 +16,7 @@ function [finalDescriptor, finalLabels] = createTrainigSet( trainDir )
          D(i).name
          
          textonsResponses=load(strcat(trainDir,'/',D(i).name));
-         textonsResponses=textonsResponses.tFeats96;
+         textonsResponses=textonsResponses.tFeats32;
          initSize=size(textonsResponses);
          
          textonsResponses=reshape(textonsResponses,[1,initSize(1)*initSize(2)]);

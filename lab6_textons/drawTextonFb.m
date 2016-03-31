@@ -1,5 +1,7 @@
-function [ output_args ] = drawTextonFb( fb )
+function [ output_args ] = drawTextonFb( )
+    addpath('/home/fuanka/Dokumente/CV/lab_vision/lab6_textons/lib')
 
+    [fb] = fbCreate;
     sizefb=size(fb)
 
     fbCol1=zeros(0,0);
@@ -15,7 +17,7 @@ function [ output_args ] = drawTextonFb( fb )
     size(fbCol1)
     size(fbCol2)
     imshow(mat2gray(fbCol1));
-    imshow(mat2gray(fbCol2));
+    imshow(imresize(mat2gray(fbCol2),3)');
     drawnow;
 end
 

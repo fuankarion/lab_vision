@@ -5,12 +5,12 @@
 %%%choose
 
 [d,l]=createTrainigSet('/home/fuanka/Dropbox/lab6/textures/feats/test96');
-tic;
 BaggedEnsemble = TreeBagger(100,d,l','OOBPrediction','On','Method','classification')
+tic;
+[gt,predicted]=createEvalationSet(BaggedEnsemble,'/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/feats/test96')
 toc;
 
-
-%[gt,predicted]=createEvalationSet(BaggedEnsemble,'/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/feats/test32')
+%)
 
 
 % 
