@@ -7,7 +7,8 @@
 [d,l]=createTrainigSet('/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/feats/test32');
 BaggedEnsemble = TreeBagger(5,d,l','OOBPrediction','On','Method','classification')
 [gt,predicted]=createEvalationSet(BaggedEnsemble,'/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/feats/test32')
-confusionmat(gt,predicted)
+%confusionmat(gt,predicted)
+plotconfusion(gt,predicted)
 
 % 
 % 
