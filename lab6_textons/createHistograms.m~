@@ -1,0 +1,29 @@
+
+function  createHistogram(textonDic, , metric )
+textons=load('/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/otherTextons/textonsbrick1.mat');
+map=load('/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/otherTextons/mapbrick1.mat');
+
+textons=textons.textons;
+map=map.map;
+
+sizeMap=size(map)
+%%%this size is K (clusters), by the numel of the texton dictionary
+sizeTextons=size(textons)
+
+figure;imshow(map,[]);colormap(jet);
+
+k=32
+D=dir('/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/otherTextons/brickImages/*.jpg');
+% texton maps de dos nuevas imagenes
+for i=1:numel(D),
+    im2=double(imread(strcat('/home/fuanka/Dokumente/CV/LabsCV/Lab06/textures/otherTextons/brickImages/',D(i).name)))/255;
+    tmap = assignTextons(fbRun(fb,im2),textons');
+    
+    histc(tmap(:),1:k)
+
+    % la distribucion de textones en la oveja deberia ser similar a la de la
+    % imagen de referencia.
+    figure;subplot(1,2,1);imshow(tmap,[]);colormap(jet);
+    subplot(1,2,2);bar(histc(tmap(:),1:k)/numel(tmap));
+    drawnow;
+end

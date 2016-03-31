@@ -17,117 +17,190 @@
 
 \section{Description of the database}
 
-The database\cite{Lazebnik2005} contains 1000 gray scale images in JPG format, every images has a 640*480 pixels resolution. Images are close ups of a given object surface, thus, containing textures found in different objects \footnote{The object clases are: Bark Wood, Water, Granite, Marble, Floors, Pebbles, Wall Brick, Glass, Carpet, Upholstery, Wallpaper, Fur, Knit, Corduroy \& Plaid }. There are 40 samples for each class. The databaset is divided into test and train. There is a final idex file plain text file with the naming convention for the images.
-
+The database\cite{Lazebnik2005} contains 1000 gray scale in JPG format, all of them have a standard 640x480 pixels resolution. Images are close ups of a given object surface, thus, containing textures found in different objects. There is a total of 17 classes \footnote{The object classes are: Bark Wood, Water, Granite, Marble, Floors, Pebbles, Wall Brick, Glass, Carpet, Upholstery, Wallpaper, Fur, Knit, Corduroy \& Plaid }, each contains between 30 to 90 sample images in the train set and between 10 to 30 images in the test set. Finally, there is a plain text file which specifies the naming convention for the images.
 
 
 \section{Methodlogy}
 
-The first step in the classifiaction is the construction of a texton dictionary from the subset 'train'.  Due to memory constrains, it was not possible to build this dictionary with the complete train set (750 images). Creating a texton dictionary with a set of 40 images requires about 42 GB of RAM memory (At peak), while requiring about 3 hors procesing time. For the experiments that follow  a single 115GB RAM machine was avaialabe. Thus the trainign set was reduced to 85 images. 
+Overall the mothodology used in this laboratory is presneten in figure ....
 
-We have not a clear way to subsample the original training set so thta variability is not significvcanly changed, in other words, this reduction in the trainig set could create a large bias.
+\begin{figure}[!ht]
+	\centering
+   \includegraphics[width=0.95\textwidth]{img/Pipeline.png}
+ 	\caption{Elements of the proposed apporach}
+\end{figure}
 
-However the natre of the dataset might help to mitigate this issue: textures are essentially local patterns repeated, with some variability, at the global level. Thus it can be assumed that each image constins several instances of these local patters that already containsome of the variability of the texture.
+The original first step in the pipeline was the construction of a texton dictionary from the subset 'train'.  However, due to hardware constraints, it was not possible to build this dictionary with the complete train set (750 images). Creating a texton dictionary with a set of 40 images already requires about 45 GB of RAM memory (At peak), and about 3 hours CPU time. For the experiments, a single 115GB RAM machine was available. As it was not possible to create a dictionary with the full training set, it was reduced to 85 images (5 images per class).
 
-To further test this hypotesis...  \todo{btreve experimento con 4 histogramas T1,5Imagenes T1n30I mages, T2n5Imagens,T2n30Imagenes, distancia chi-cuadrado}
+There is not a clear way to subsample the original training set while retaining the original data variability, in other words, it is expected that this sub sampling process should create some bias in the dictionary. However the nature of the dataset might help to mitigate this issue: textures are essentially local patterns repeated, with some variability, at the global level. Thus it can be assumed that each image contains several instances of these local patterns, that already contain some of the variability of the texture.
 
 
 \subsection{Textons}
-After selecting the initial number of training images, there remains one final parameter for the construction of the texton dictionary. We use a number of textons given by $N=k32$ ($K={1,2,3}$). The explanation behind this choice is that we expected the local patterns to closely match the shape of the filter bank; This is the case of k=1 $\rightarrow$ N=32 
-How ever, not every the local pattern will match perfectly one of the textons on the filterbank. This is the case of $K={2,3}$ where the resulting clusters might contain resposne infomation cretaed by combining filter responses. No further values for $K$ are explored mostly, due to time constrains.
- 
+After selecting the initial number of training images, there remains one final parameter for the construction of the texton dictionary, namely the K for the K means. For this matter we use a number of textons given by $K=c32$ ($c={1,2,3}$). The explanation behind this choice is that we expected the local patterns to closely match the shape of the filter bank; This is the case of c=1 $\rightarrow$ K=32. However, not every local pattern will match perfectly one of the textons on the filterbank. This is the case of $K={2,3}$ where the resulting clusters might contain the response information of several filters. No further values for $c$ are explored mostly, due to time constraints.
 The final setup for the texton dictionary construction is the following:
 
 \begin{itemize}
-	\item Filter Bank: default filterbank provide in the implementatios 16 orientaions, 2 scales
+	\item Filter Bank: default filterbank provide in the implementations 16 orientations, 2 scales
 	\item Number of training images: 85 (5 per each class)
-	\item Number of clusters ($N$):  32,64,96
+	\item Number of clusters ($N$):  32, 64, 96
 \end{itemize}
 
+\subsection{Texton Calculation on Test Set}
 
-\begin{figure}[!htbp]
-\begin{center}
-\begin{tikzpicture}
-\draw[domain=-2:2, color=blue] plot (\x, {1 - (\x)^2}) node[above = .5cm, right, color=blue] {$f(x)=1-x^2$};
-\draw[domain=-2:2, color=red] plot(\x,-1 * \x + 1.25) node[above = .5cm, right, color=red] {Tangent at $x=.5$};
-\draw [thick, ->] (-3,0) -- (3,0) node [above] {$x$};
-\draw [thick, ->] (0,-3) -- (0,3) node [right] {$y$};
-\node at (.5,.75) {\textbullet};
-\end{tikzpicture}
-\end{center}
-\caption{The plot of $f(x)=1-x^2$ with a tangent at $x=.5$.}\label{exampleplot}
-\end{figure}
+With the 3 Texton dictionaries built we then calculate response of every image in the test set filtered with the obtained textons. for each image we obtain 3 responses (3 dictionaries) which are then represented by means of an histogram where the number of bins depends on the value of K used for the construction of the dictionary.
 
-Differentiation is now a technique taught to mathematics students throughout the world. In this document I will discuss some aspects of differentiation.
+\subsection{Classification}
+There are two methods selected for the classification of the textures
 
-\section{Exploring the derivative using Sage}
+\begin{description}
 
-The definition of the limit of $f(x)$ at $x=a$ denoted as $f'(a)$ is:
+\item[Nearest Neighbor] \cite{}
+\item[Random Forest] \cite{}
 
-\begin{equation}
-f'(a) = \lim_{h\to0}\frac{f(a+h)-f(a)}{h}
-\end{equation}
+\end{description}
 
-The following code can be used in sage to give the above limit:
+The first methods has a single parameter: the distance metric, as specified by the assignment, we use the Chi-square distance to choose the Nearest Neighbour.
 
-\begin{verbatim}
-def illustrate(f, a):
-    """
-    Function to take a function and illustrate the limiting definition of a derivative at a given point.
-    """
-    lst = []
-    for h in srange(.01, 3, .01):
-    	lst.append([h,(f(a+h)-f(a))/h])
-    return list_plot(lst, axes_labels=['$x$','$\\frac{f(%.02f+h)-f(%.02f)}{h}$' % (a,a)])
-\end{verbatim}
+For the second method there are more parameters, the MATLAB implementation allows to choose:
+
+\begin{itemize}
+	\item Number of variables eligible for each decision split
+	\item Cost of misclassifications
+	\item Minimum number of observations per tree leaf
+\end{itemize}
+
+To allow for a maximum variability in the built trees we select the number of variables eligible for each decision split equals to the total amount of variables. Set the minimum number of observations to 1 and set no specific cost matrix for the experiments.
+
+No adjustment is performed on the test data or the texton dictionary after being calculated.
+
+Table \ref{table:table1} sumarizes the ruslts obtained for the Nearest Neighboug classifer:
 
 
+\begin{table*}[t]
+\centering
+\begin{tabular}{c | c | c}
+Set Up & Precision & Recall   \\
+\hline	
+K=32 & 0.072 & 0.094 \\
+K=64 & 0.1609 & 0.4667 \\
+K=96 &  0.1163&  0.2553 \\
 
-If we want to plot the tangent at a point $\alpha$ to a function we can use the following:
-
-\begin{align}
-y=&ax+b&&\text{(definition of a straight line)}\nonumber\\
-  &f'(a)x+b&&\text{(definition of the derivative)}\nonumber\\
-  &f'(a)x+f(a)-f'(a)a&&\text{(we know that the line intersects $f$ at $(a,f(a))$}\nonumber
-\end{align}
-
-We can combine this with the approach of the previous piece of code to see how the tangential line converges as the limiting definition of the derivative converges:
-
-\begin{verbatim}
-def convergetangentialline(f, a, x1, x2, nbrofplots=50, epsilon=.1):
-    """
-    Function to make a tangential line converge
-    """
-    clrs = rainbow(nbrofplots)
-    k = 0
-    h = epsilon
-    p = plot(f, x, x1, x2)
-    while k < nbrofplots:
-        tangent(x) = fdash(f, a, h) * x + f(a) - fdash(f, a, h) * a
-        p += plot(tangent(x), x, x1, x2, color=clrs[k])
-        h += epsilon
-        k += 1
-    return p
-\end{verbatim}
-
-The plot shown in Figure \ref{lines} shows how the lines shown converge to the actual tangent to $1-x^2$ as $x=2$ (the red line is the `closest' curve).
+\end{tabular}
+\caption{Precision and reacall for the Nearest neigborg classfifier}
+\label{table:table1}
+\end{table*}
 
 
-Note here that the last plot is given using the \textbf{real} definition of the derivative and not the approximation.
+Table \ref{table:table2}  sumarizes the results obtained for the Random Forest classifier:
 
-\section{Conclusions}
+\begin{table*}[t]
+\centering
+\begin{tabular}{ l | c | c}
+Set Up & Precision & Recall   \\
+\hline	
+K=32,20 trees & 0.1159 & 0.2667 \\
+K=64,20 trees & 0.1552 & 0.3000 \\
+K=96,20 trees & 0.0789  &  0.2000 \\
+K=32,50 trees & 0.1585 & 0.4333 \\
+K=64,50 trees & 0.1458 & 0.3333 \\
+K=96,50 trees &  0.1111 &  0.2333\\
+K=32,100 trees & 0.1477 & 0.4333  \\
+K=64,100 trees & 0.1687 & 0.4667  \\
+K=96,100 trees & 0.1609 &  0.4667\\
+K=32,500 trees & 0.1638 & 0.6333  \\
+K=64,500 trees & 0.2072  &  0.7667 \\
+K=96,500 trees & 0.1475 & 0.6000  \\
 
-In this report I have explored the limiting definition of the limit showing how as $h\to 0$ we can visualise the derivative of a function. The code involved \url{https://sage.maths.cf.ac.uk/home/pub/18/} uses the differentiation capabilities of Sage but also the plotting abilities.
-
-There are various other aspects that could be explored such as symbolic differentiation rules. For example:
-
-$$\frac{dx^n}{dx}=(n+1)x^{n}\text{ if }x\ne-1$$
-
-Furthermore it is interesting to not that there exists some functions that \textbf{are not} differentiable at a point such as the function $f(x)=\sin(1/x)$ which is not differentiable at $x=0$. A plot of this function is shown in Figure \ref{notdiff}.
+\end{tabular}
+\caption{Precision and reacall for the Random Forest classfifier}
+\label{table:table2}
+\end{table*}
 
 
+Overall both classifiers perform very poorly on the test set. The Nearest Neighbour classifier for K=32 has a performance slighty better than that of a random guess over the set of 17 classes. This behavior suggest that for K=32 the inter-class distances in the test set are very small and that the class distribution does not follow an approximate cluster pattern in the space generated by the chi-square distance metric. Thus it is very hard for any classfier to separate the clasess.
+
+For K=64 the result are similar for both classifiers yet they barely reach a 0.2 precision. This figure suggest that both classifiers underperform mostly due to a very high number of false positives. This can be confirmed in table \ref{table:table4} which presents the confusion matrix for the best classifier found in this laboratory. It has a tendency to classify most sample as belonging to classes 1 and 2 (bark and wood) and mostly ignores every other class.
+
+With the current experimental setup, this tendency to misclassify the data can be due to:
+
+\begin{itemize}
+	\item Errors during training phase
+	\item Selected training data does not approximate the actual variability of the test data (underfitting)
+\end{itemize}
+
+To better establish the source of error, we train and classify over the same subset (test). This experimental setup yields a precision of 1. and recall of 1.0 for the random forest with K=32. The obvious overfit scenario rules out possible errors during the training phase and further in indicates that, while the classifier can learn the patterns on the training set, this pattern are not enough to porperly classify the test set.
+
+\subsection{Trainign and execution times}
+Table \ref{} sumarizes the training times for the Random ofrest classifier
+
+\begin{table*}[t]
+\centering
+\begin{tabular}{ l | c }
+Set Up & Trainig time (Seconds)    \\
+\hline	
+K=32,20 trees & 35.11 \\
+K=64,20 trees &   36.30 \\
+K=96,20 trees &    \\
+K=32,50 trees & 83.15  \\
+K=64,50 trees &  86.37 \\
+K=96,50 trees &   \\
+K=32,100 trees &  167.52 \\
+K=64,100 trees &  169.77  \\
+K=96,100 trees &  \\
+K=32,500 trees &   \\
+K=64,500 trees &   \\
+K=96,500 trees &   \\
+
+\end{tabular}
+\caption{Trainign Time (seconds) for different configurations, times measured in a lapto computer with an Quad Core INTEL I7 and 12GB RAM}
+\label{table:table2}
+\end{table*}
+
+
+
+
+\begin{table*}[t]
+\centering
+\begin{tabular}{ c | c |c |c |c |c |c |c |c |c |c |c |c |c |c |c | | c }
+\hline	
+
+	23   &  7 &    0 &    0   &  0   &  0  &   0 &    0   &  0    & 0   &  0  &   0  &   0 &    0  &   0 &    0  &   0\\
+     5   & 22   &  0  &   0   &  0   &  2   &  0   &  0   &  1   &  0   &  0  &   0  &   0  &   0  &   0  &   0  &   0\\
+     3   &  3   &  0  &   0   &  0   &  1   &  0   &  0   &  3   &  0   &  0  &   0  &   0  &   0   &  0  &   0  &   0\\
+     6   &  4   &  0  &   0   &  0   &  0   &  0   &  0   &  0   &  0   &  0  &   0  &   0  &   0   &  0  &   0  &   0\\
+     1   &  8   &  0  &   0   &  0   &  1   &  0   &  0   &  0   &  0   &  0  &   0  &   0  &   0   &  0  &   0  &   0\\
+     5   & 14   &  0  &   0   &  0    & 0   &  0  &   0   &  1   &  0   &  0  &   0  &   0  &   0   &  0   &  0  &   0\\
+     8   &  1   &  0  &   0   &  0    & 0  &   0  &   0   &  0   &  1   &  0  &   0  &   0  &   0   &  0 &    0   &  0\\
+     1   &  8   &  0   &  0   &  0    & 0   &  0  &   0   &  1   &  0   &  0  &   0  &   0  &   0   &  0  &   0   &  0\\
+     7   &  9   &  0   &  0   &  0    & 0   &  0   &  0   &  4   &  0   &  0  &   0  &   0  &   0   &  0  &   0   &  0\\
+    15   &  3   &  0   &  0   &  0    & 1   &  0   &  0   &  0   &  0   &  1  &   0  &   0  &   0   &  0   &  0  &   0\\
+    17   &  3   &  0   &  0   &  0    & 0   &  0   &  0   &  0   &  0   &  0  &   0  &   0  &   0   &  0   &  0  &   0\\
+     5   &  5    & 0   &  0   &  0   &  0   &  0   &  0   &  0   &  0   &  0  &   0  &   0  &   0   &  0   &  0   &  0\\
+     0   &  7   &  0   &  0   &  0   &  0   &  0   &  0   &  3   &  0   &  0  &   0  &   0  &   0   &  0   &  0   &  0\\
+     3   &  6   &  0   &  0   &  0   &  0   &  0   &  0  &   0   &  1   &  0  &   0  &   0  &   0   &  0  &   0   &  0\\
+     4   &  5   &  0   &  0   &  0   &  1   &  0   &  0  &   0   &  0   &  0  &   0  &   0  &   0   &  0  &   0   &  0\\
+     6   & 2   &  0    & 0    & 0    & 0    & 0    & 0   &  1    & 1    & 0    & 0   &  0   &  0    & 0   &  0   &  0\\
+     2   &  7  &   0   &  0   &  0   &  0   &  0   &  0   &  1   &  0   &  0   &  0   &  0  &   0   &  0  &   0  &   0\\
+     
+     
+\end{tabular}
+\caption{}
+\label{table:table4}
+\end{table*}
+
+     
+The training time is mostly not an issue, most time in can be coplete in about 2 minutes or less,  the only exception are the cases where the amount of trees is greater than 100. It should also be noticed thet the K used to buld the filter bank has little impact the total computation time.
+
+Unlike the filter dictionary calculation the traingi process requeres very little RAM memory resources, usually under 400MB.
+
+\subsection{Improvemets}
+As mentioned earlier the poor performance of the methos seems to be related to the subsamplig made to the train set. This is not a limitation of the method itself, but rather a hardware limitation. 
+The most important modification that could be made to the method is to develop a better  substamplig tsrategy for the the train set, where little or no variabilty is lost. One such strategy could be to densly sample patches over the whole trainign set, and keep only those who are the most different. This difrerence metric coul be a standard crosscorrelation, a mutual information or even a learnt metric that can daptate to the difrent textires and dataset size. A second approch to this subsamplig would be first build bag of visual word dictionary for every category ans then explciityly keep out of the traing process those image regions (patches) which contain visual workds which are common to a set of clases. Finally an obvous imporveme wuld be to re-implement the most relevant funnctions so that the memry usage is reduced and theinitial texton dicitonary can be built with a largger amount of images
 
 
 \bibliographystyle{plain}
 \bibliography{bibliography.bib}
 \end{document}
+
+
+
