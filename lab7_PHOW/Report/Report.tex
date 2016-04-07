@@ -213,7 +213,9 @@ It is  also interesting to notice that the smaller the amount of classes in the 
 Finally it is also worth noticing that the procedure requires a very large amount of computer resources, the subset used for the laboratory is an order of magnitude smaller than the complete imagenet dataset. Applying this method to the full dataset will probably require require a very large computer or cluster with Terabytes of RAM memory available. Even with today's hardware such requirements are not easy to meet.
 
 \subsection{Improvements}
-A first step to improve the results would be to perform a proper search over the full set of identified hyper-parameters, as it is likely that the proposed approach (while tem efficient) could lead to a local minima. Even a proper parameter search would not address the 2 most clear limitations found for this approach: Model capacity Base descriptors limitations:
+A first step to improve the results would be to perform a proper search over the full set of identified hyper-parameters, as it is likely that the proposed approach (while time efficient) could lead to a local minima. 
+
+Even a proper parameter search would not address the 2 most clear limitations found for this approach: Model capacity Base descriptors limitations.
 
 To address the first issue it would be necessary to change the kernel for the SVM, this process is, very difficult as there is not an straightforward method to optimize the representation space,  this process is rather (to the authors best knowledge) a trial and error approach. Given the large size of the problem optimizing the kernel  could be a very long task, whose results are not granted. Probably the best improvement for this issue would be to change the classifier for one that can better handle the large variability in the dataset, it is possible that a very large random forest could perform better in this scenario.
 
