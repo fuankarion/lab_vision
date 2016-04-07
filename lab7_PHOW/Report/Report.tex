@@ -112,7 +112,7 @@ The best set of hyper parameters is:
 
 The performance of this set of parameters over  the subset of 30 classes is 80.67\%, The performance over the whole set of 100 classes and 9145 Images degrades significantly to is 68\%. This figure is only slightly better than the initial configuration at 67.50\%.
 
-\subsection{Results on Imagenet}
+\section{Results on Imagenet}
 
 Producing a result for the whole dataset is a challenging task. It is not possible to train with the whole 99600 set of training images, it was empirically established that the RAM memory on the server (100GB) can handle the whole classification process with up to 10000 images.  This means that either a subset of the images must be selected or a subset of the categories must be selected, we use both approaches
 
@@ -133,7 +133,7 @@ Sampling & Accuracy    \\
 310 Categories, 31 images per class & 14.86 \\
 
 \end{tabular}
-\caption{Acurracy over the full image net dataset}
+\caption{Accuracy over the full image net dataset}
 \label{table:tableFA}
 \end{table}
 
@@ -152,7 +152,7 @@ results are shown in tables \ref{table:tableCategories}, \ref{table:tableImages}
 \begin{table}[t]
 \centering
 \begin{tabular}{c | c }
-Clases & Accuracy    \\
+Classes & Accuracy    \\
 \hline	
 10 & 44  \\
 50 & 21.20 \\
@@ -200,28 +200,26 @@ Spatial Partition & Accuracy    \\
 \label{table:tableCategories}
 \end{table}
 
-\section{Results Analysis \& limitations}
+\section{Results Analysis \& Limitations}
 
-Clearly the method is not good enough on the problem of classification on the imagenet dataset, the overall accuracy is under 20\% for the larger possible experiments  that can be handled with the available hardware.
+While the method can reach an accuracy of 64\% on the caltech 10, these results clearly can not be reproduced on the much larger and much complex imagenet dataset, the overall classification accuracy is under 20\% for the larger possible experiments that can be executed with the available hardware. Nevertheless this figures are significantly better than a random guess over the dataset (which would produce about 0.01\% accuracy) this suggest that the method could be a fair starting point for the recognition of images in large scale datasets.
 
-Overall the method is insensitive to the spatial partitions and the initially suggested pyramyd of 2 and 4 partitions has the same accuracy of deeper pyramys. This suggest that the relevant information can be captured at the first two scale, and the additional data of other scales is likely noisy data discarded by the classifier or the clustering process.
+Regarding the parameter exploration. It can be stated that the method is insensitive to the spatial partitions as the initially suggested pyramyd of 2 and 4 partitions has the same accuracy of deeper pyramids. This suggest that the relevant information can be captured at these first two scales, additional data of other scales is likely noisy data discarded by either the classifier or the clustering process.
 
-It is clear that the classification improves the larger the training set is. This could be attributed to the large amount of different samples from each class which contribute to build a better model of the object (provided the scales and number of classes remains stable).
+It is clear that the classification improves the larger the training set is. This could be attributed to the large amount of different samples from each class which contribute to build a better model of the object ).
 
-It is interesting to notice that the smaller the amount of classes in the classification process the better the results. This suggest that either there is not enough capacity in the model to capture the complete variability of a large number of classes, or the base descriptor (Sift) is not capable of capturing the relevant information when the classification problem grows large.
+It is  also interesting to notice that the smaller the amount of classes in the classification process the better the results. This suggest that either there is not enough capacity in the model to capture the complete variability of a large number of classes (996), or the base descriptor (SIFT) is not capable of capturing the relevant information when the classification problem grows large.
 
 Finally it is also worth noticing that the procedures requires a very large amount of computer resources, the subset used for the laboratory is an order of magnitude smaller than the complete imagenet dataset. Applying this method to the full dataset will probably require require a very large computer or cluster with Terabytes of RAM memory available. Even with today's hardware such requirements are not easy to meet.
 
-\subsection{Improvemets}
-A first approach to improve the results would be to perform a proper search over the full set of identified hyper-parameters, it is likely that the proposed approach could lead to a local minima.
+\subsection{Improvements}
+A first step to improve the results would be to perform a proper search over the full set of identified hyper-parameters, as it is likely that the proposed approach (while tem efficient) could lead to a local minima. Even a proper parameter search would not address the 2 most clear limitations found for this approach: Model capacity Base descriptors limitations:
 
-Yet this process would not address the 2 most clear limitations found for this approach: Model capacity Base descriptors limitations
+To address the first issue it would be necessary to change the kernel for the SVM, this process is, very difficult as there is not an straightforward method to optimize the representation space,  this process is rather (to the authors best knowledge) a trial and error approach. Given the large size of the problem optimizing the kernel  could be a very long task, whose results are not granted. Probably the best improvement for this issue would be to change the classifier for one that can better handle the large variability in the dataset, it is possible that a very large random forest could perform better in this scenario.
 
-To address the first issue it would be necessary to change the kernel for the svm, this process is, very difficult as there is not an straightforward method to optimize the representation space, rather this process is mostly (to the authors best knowledge) a trial and error approach. Given the large size of the problem optimizing the kernel  could be a very long task, whose results are not granted. Probably the best improvements would be to change the classifier for one that can better handle the large variability in the dataset, it is possible that a very large random forest could perform better in this scenario
+Regarding the second limitation, the SIFT descriptors works at the local level, thus, ignoring regional and global patterns in the image that might be critical for the process of classification. A better approach might also use regional information (like the deformable part models\cite{Felzenszwalb2010}) or global information obtained from second order statistics of the image.
 
-Regarding the second limitation, the SIFT descriptors works at the local level, thus, ignoring regional and global patterns in the image that might be critical for the process of classification. A better approach might also use regional information (like the deformable part models) or global information as the second order statistics.
-
-Overall, It is hard to address any of the problems only with modifications to the parameters of the model.
+Finally an strategy that could address both the descriptor and classification effectiveness would be a deep neural network, which explicitly builds a better model representation over the whole image dataset.
 
 {\small
 \bibliographystyle{ieee}
@@ -230,4 +228,6 @@ Overall, It is hard to address any of the problems only with modifications to th
 
 
 \end{document}
+
+
 
