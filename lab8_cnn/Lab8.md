@@ -1,9 +1,13 @@
 
 ### CNN architecture
-The base for the first attepts at the network initialization was to explicitely include the texons filters (Leung & Malik) into a network similar to the character CNN provided with the code base. This proved to be inefficient and ineffective. A follow up work tried to use the very same Digit network to classify the textons, again with poor results. A deeper version of the character CNN was also implemented, agian with very poor results. The appoach was then to build a very somwath deep networkd with a very diffrent architecture to those mentioned before.
+The base idea for the first attempts at the network initialization was to explicitly include the textons filters (Leung & Malik) into a network similar with similar structure  to the character CNN provided with the code base.  This proved to be inefficient and ineffective regardless of the orientation and scale of the texton filters.
+
+A follow up work tried to use the very same Digit network to classify the textons, again with very poor results. A deeper version (1, 2 and 3 convolutional layers deeper) of the Digit network was also implemented, again with very poor results. 
+
+The final approach was then to build a very somewhat deep network with a very different architecture to those mentioned before. The final CNN is as follows:
 
 ####Why It works (Ablation Tests)
-It is hard to fomaly explain why this network performs well on the texture recognition problem however ablation test  shed some light on the more relevant elements of the network
+It is hard to formally explain why this network performs well on the texture recognition problem, however, ablation test can shed some light on the more relevant elements of the network
 
 Convolutional Layer ablation
 
@@ -35,3 +39,5 @@ Figure XXX shows the error and  Top5 error during a traing process limited to 1 
 Best results are achieve for the following paramaters
 Batch Size:180
 Learning Rate:
+
+
