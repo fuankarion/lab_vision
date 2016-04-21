@@ -1,10 +1,18 @@
 
 ### CNN architecture
-The base idea for the first attempts at the network initialization was to explicitly include the textons filters (Leung & Malik) into a network similar with similar structure  to the character CNN provided with the code base.  This proved to be inefficient and ineffective regardless of the orientation and scale of the texton filters.
+The base idea for the first attempts at the network initialization was to explicitly include the textons filters (Leung & Malik) into a network with similar structure  to the character CNN provided with the code base.  This proved to be inefficient and ineffective regardless of the orientation and scale of the texton filters.
 
 A follow up work tried to use the very same Digit network to classify the textons, again with very poor results. A deeper version (1, 2 and 3 convolutional layers deeper) of the Digit network was also implemented, again with very poor results. 
 
 The final approach was then to build a very somewhat deep network (6 convolutional layers) with a very different architecture to those mentioned before i.e smaller random filters. This network performed surprisingly better than the initial approaches. The final CNN is as follows:
+
+Type Layer| Filter Size | Filter Amount
+-----|--------------|-----------|-------
+Conv |3x3|32
+Relu||
+Conv |3x3|32
+
+
 
 ### Results
 Figure 1 shows the error and  Top5 error during a training process limited to 1 hour in a Nvidia Tesla K40 
