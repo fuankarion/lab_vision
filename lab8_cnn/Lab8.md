@@ -54,7 +54,7 @@ Conv 3,4,5,6| 96.1%|79.9%
 Conv 4,5,6|69.7%|33.4%
 Conv 5,6|45.3%|12.8%
 Conv 6| 32.5% |4.6%
-Full| 36.4%|5.0%
+Full| 27.3%|2.7%
 
 With the small filters (3x3) network depth is critical as it increases the area of the original image anñaysed by filters in the final layers. The performance of the network declines quickly with each filter removed and can't learn if 4 or more convolutional layers are removed.
 
