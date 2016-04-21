@@ -33,7 +33,7 @@ Batch Size:180
 
 Learning Rate:0.001
 
-####Why It works (Ablation Tests)
+####Ablation Tests  (Some insight into why It works)
 It is hard to formally explain why this network performs well on the texture recognition problem, however, ablation tests can shed some light on the more relevant elements of the network.
 
 Al test contain the same basic experimental setup:
