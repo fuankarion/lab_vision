@@ -30,7 +30,7 @@ Figure 1 shows the error and  Top5 error during a training process limited to 35
 
 <img src="Train.png" alt="Train" width="800" height="500">
 
-Best results are achieve for the following parameters
+On the epoch 25 of the trainig process an error of 14.7% for a single category, and an error for the top 5 categories of 5 0.7% is achieved.Best results are achieve for the following parameters
 
 Batch Size:180
 
