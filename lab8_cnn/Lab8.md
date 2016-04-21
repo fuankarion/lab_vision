@@ -6,12 +6,22 @@ A follow up work tried to use the very same Digit network to classify the texton
 
 The final approach was then to build a very somewhat deep network (6 convolutional layers) with a very different architecture to those mentioned before i.e smaller random filters. This network performed surprisingly better than the initial approaches. The final CNN is as follows:
 
-Type Layer| Filter Size | Stride | Stride
------|--------------|-----------|-------
+Type Layer| Filter Size | Stride 
+-----|--------------|-----------
 Conv |3x3x32|1
 Relu||
-Conv |3x3|1
+Conv |3x3x32|1
 Max Pool |2x2|2
+Conv |3x3x64|1
+Relu||
+Conv |3x3x64|1
+Max Pool |2x2|2
+Max Pool |2x2|2
+Conv |3x3x128|1
+Relu||
+Conv |3x3x128|1
+Max Pool |2x2|2
+Conv |1x1x25|1
 
 
 ### Results
