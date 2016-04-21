@@ -24,6 +24,7 @@ Max Pool |2x2|2
 Conv |1x1x25|1
 
 
+
 ### Results
 Figure 1 shows the error and  Top5 error during a training process limited to 1 hour in a Nvidia Tesla K40 
 
@@ -48,13 +49,16 @@ Convolutional Layer ablation (Notice the final layer,conv 7, is never removed, a
 
 Layers Removed| Error | Error Top5
 -----|--------------|-----------|-------
-Conv 2,3,4,5,6|%|%
-Conv 3,4,5,6|%|%
+Conv 2,3,4,5,6|96.1%|79.9%
+Conv 3,4,5,6| 96.1%|79.9%
 Conv 4,5,6|69.7%|33.4%
 Conv 5,6|45.3%|12.8%
 Conv 6| 32.5% |4.6%
 Full| 36.4%|5.0%
 
+With the small filters (3x3) network depth is critical as it increases the area of the original image anñaysed by filters in the final layers. The performance of the network declines quickly with each filter removed and can't learn if 4 or more convolutional layers are removed.
+
+Deeper networks were tested with a slight decrease in the error rate, however, these networks are too big to be quickly trained in smaller GPUs, so the 7 layer version is considered as final for this laboratory.
 
 ####Training set preprocessing 
 The initial division for the training and validation set was 50%-50% (12500-12500) images each. An additional preprocessing of the images included the data type conversion (From Uint8 to Single) in order to work with the GPU library and the rescaling to 64x64 in order to save some GPU time and memory. 
@@ -64,4 +68,5 @@ The initial division for the training and validation set was 50%-50% (12500-1250
 The initial texton database contains only samples for the training test, to correct this, the samples are assigned to the validation set by a by a random process according only to the desired final number in samples in the validation set.
 
 After a review of the provided code, it was identified that the original jitter function could create training instances which contain at least 2 (probably 3) different textures in the image, this problem was addressed in the posted jittering function.
+
 
