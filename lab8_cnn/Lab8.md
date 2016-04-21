@@ -39,7 +39,7 @@ Learning Rate:0.001
 ####Ablation Tests  (Some insight into why It works)
 It is hard to formally explain why this network performs well on the texture recognition problem, however, ablation tests can shed some light on the more relevant elements of the network.
 
-Al test contain the same basic experimental setup:
+Alñ test start from the same basic experimental setup:
 Initial Network: as described above
 Learning Rate: 0.001
 Dataset: As provided from the instructors, 12500 images for train, 12500 images for validation
