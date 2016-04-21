@@ -28,8 +28,8 @@ Conv |1x1x25|1
 Figure 1 shows the error and  Top5 error during a training process limited to 1 hour in a Nvidia Tesla K40 
 
 Best results are achieve for the following parameters
-Batch Size:
-Learning Rate:
+Batch Size:180
+Learning Rate:0.001
 
 ####Why It works (Ablation Tests)
 It is hard to formally explain why this network performs well on the texture recognition problem, however, ablation tests can shed some light on the more relevant elements of the network.
@@ -50,7 +50,7 @@ Conv 2,3,4,5,6|%|%
 Conv 3,4,5,6|%|%
 Conv 4,5,6|%|%
 Conv 5,6|19.7%|1.6%
-Conv 6| 36.4%|5.0%
+Conv 6| 32.5 |4.6%
 Full| 36.4%|5.0%
 
 
