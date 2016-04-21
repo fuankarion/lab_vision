@@ -51,7 +51,7 @@ Layers Removed| Error | Error Top5
 Conv 2,3,4,5,6|%|%
 Conv 3,4,5,6|%|%
 Conv 4,5,6|%|%
-Conv 5,6|19.7%|1.6%
+Conv 5,6|45.3 e|12.8%
 Conv 6| 32.5 |4.6%
 Full| 36.4%|5.0%
 
