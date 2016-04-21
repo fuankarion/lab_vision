@@ -56,19 +56,4 @@ Conv 6| 32.5 |4.6%
 Full| 36.4%|5.0%
 
 
-Relu Layer ablation
-
-Relu Layer on Network| Error | Error Top5
------|--------------|-----------|-------
-Only First |%|%
-First and second|%|%
-All |36.4%|5.0%
-
-
-
-
-
-
-
-
 
