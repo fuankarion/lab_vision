@@ -44,7 +44,7 @@ Max 10 epoch for training.
 All images were rescaled to 64x64.
 
 
-Convolutional Layer ablation
+Convolutional Layer ablation (Notice the final layer,conv 7, is never removed, as it is allways required to have a final layer to transform the ouput of the network into a 1x25 array)
 
 Layers Removed| Error | Error Top5
 -----|--------------|-----------|-------
