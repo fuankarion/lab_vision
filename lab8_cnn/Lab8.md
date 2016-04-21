@@ -28,7 +28,9 @@ Conv |1x1x25|1
 Figure 1 shows the error and  Top5 error during a training process limited to 1 hour in a Nvidia Tesla K40 
 
 Best results are achieve for the following parameters
+
 Batch Size:180
+
 Learning Rate:0.001
 
 ####Why It works (Ablation Tests)
