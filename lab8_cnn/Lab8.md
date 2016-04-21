@@ -56,11 +56,11 @@ Conv 6| 32.5 |4.6%
 Full| 36.4%|5.0%
 
 
-### Training set preprocessing 
+####Training set preprocessing 
 The initial division for the training and validation set was 50%-50% (12500-12500) images each. An additional preprocessing of the images included the data type conversion (From Uint8 to Single) in order to work with the GPU library and the rescaling to 64x64 in order to save some GPU time and memory. 
 
 
-### Additional Changes
+####Additional Changes
 The initial texton database contains only samples for the training test, to correct this, the samples are assigned to the validation set by a by a random process according only to the desired final number in samples in the validation set.
 
 After a review of the provided code, it was identified that the original jitter function could create training instances which contain at least 2 (probably 3) different textures in the image, this problem was addressed in the posted jittering function.
