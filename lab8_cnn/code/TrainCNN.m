@@ -3,8 +3,8 @@ function net =TrainCNN(db)
     setup ;
     net = InitializeTextonNetwork() ;
     
-    trainOpts.batchSize = 180 ;
-    trainOpts.numEpochs = 10 ;
+    trainOpts.batchSize = 165 ;
+    trainOpts.numEpochs = 23 ;
     trainOpts.continue = true ;
     trainOpts.useGpu = true ;
     trainOpts.learningRate = 0.001 ;
