@@ -8,7 +8,6 @@ The final approach was then to build a very somewhat deep network (6 convolution
 
 Type Layer| Filter Size | Stride 
 -----|--------------|-----------
-Conv |64x64 (original Image)|NA
 Conv |3x3x32|1
 Relu||
 Conv |3x3x32|1
