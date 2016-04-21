@@ -44,13 +44,14 @@ All images were rescaled to 64x64.
 
 Convolutional Layer ablation
 
-Final Layer| Error | Error Top5
+Layers Removed| Error | Error Top5
 -----|--------------|-----------|-------
-Conv 2|%|%
-Conv 3|%|%
-Conv 4|%|%
-Conv 5|19.7%|1.6%
+Conv 2,3,4,5,6|%|%
+Conv 3,4,5,6|%|%
+Conv 4,5,6|%|%
+Conv 5,6|19.7%|1.6%
 Conv 6| 36.4%|5.0%
+Full| 36.4%|5.0%
 
 
 Relu Layer ablation
