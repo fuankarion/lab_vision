@@ -28,7 +28,7 @@ Conv |1x1x25|1
 ### Results
 Figure 1 shows the error and  Top5 error during a training process limited to 1 hour in a Nvidia Tesla K40 
 
-<img src="Train.png" alt="Train" width="345" height="460">
+<img src="Train.png" alt="Train" width="800" height="500">
 
 Best results are achieve for the following parameters
 
