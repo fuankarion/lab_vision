@@ -246,7 +246,7 @@ Los resultados del benchmark con los métodos seleccionados en el laboratorio y 
 \label{fig:plot}
 \end{figure}
 
-\begin{table*}[t]
+\begin{table*}[th!]
 \centering
 \begin{tabular}{c | c | c | c }
 Metodo & ODS & OID & AreaPR  \\
@@ -259,12 +259,12 @@ UCM & F( 0.72, 0.70 ) = 0.71  & F( 0.77, 0.71 ) = 0.74 &  0.73\\
 \end{table*}
 
 
-Las curvas obtenidas para los métodos propuestos en este laboratorio comparten la misma deficiencia:  no pueden obtener en ningún caso la precisión de 1.0 (en general nunca es mejor de 0.5) ni la exhaustividad de 1.0 (se acerca a la frontera de 0.9). Esto indica que en ninguna de las combinaciones probadas dentro de este laboratorio (espacio de color y K) se logró un número cercano a cero de falsos positivos o falsos negativos. El desempeño de los dos métodos propuesto es bastante similar, sin embargo, se puede afirmar que la precision del metodo HSV+xy GMM es siempre superior a la del método LAB+xy GMM, a costa de un menor valor de precisión, es decir la segmentación de HSV+xy GMM contiene menos falsos positivos pero a su vez contiene más falsos negativos.
+Las curvas obtenidas para los métodos propuestos en este laboratorio comparten la misma deficiencia:  no pueden obtener en ningún caso la precisión de 1.0 (en general nunca es mejor de 0.5) ni la exhaustividad de 1.0 (se acerca a la frontera de 0.9). Esto indica que en ninguna de las combinaciones probadas dentro de este laboratorio (espacio de color y K) se logró un número cercano a cero de falsos positivos o falsos negativos. El desempeño de los dos métodos propuesto es bastante similar, sin embargo, se puede afirmar que la precision del metodo LAB+xy GMM es siempre superior a la del método HSV+xy GMM, a costa de un menor valor de precisión, es decir la segmentación de HSV+xy GMM contiene menos falsos positivos pero a su vez contiene más falsos negativos.
 
 
 \subsection{Análisis de resultados}
 
-Existe una clara diferencia en desempeño entre los algoritmos creados para el laboratorio y el UCM. La diferencia se puede explicar en gran medida en que los algoritmos utilizan únicamente la información local de color del píxel y la localización absoluta en la imagen. Este tipo de información permite únicamente aproximarse a los verdaderos contornos y tiene varias condiciones de falla entre otras:
+Existe una clara diferencia en desempeño entre los algoritmos creados para el laboratorio y el UCM. La diferencia se puede explicar en gran medida en que los algoritmos utilizan únicamente la información local de color del píxel y su localización absoluta en la imagen. Este tipo de información permite aproximarse a los verdaderos contornos y tiene varias condiciones de falla entre otras:
 
 \begin{itemize}
 \item Si dos regiones del mismo objeto tienen  colores distintos casi siempre son etiquetadas como dos objetos distintos. (ejemplo el rostro y la ropa de una persona, ver figura \ref{fig:kids})
@@ -287,6 +287,27 @@ Finalmente, y para poder superar el desempeño de UCM, sería necesario incorpor
 
 \subsection{Aplicación en la práctica}
 En un escenario real en el que se requiera aplicar un método de segmentación, no hay razón para preferir alguno de los métodos propuestos por encima del UCM. Existe una muy importante diferencia en el desempeño (especialmente en cuanto a precisión) de los métodos propuestos y UCM. El único caso en el que podría resultar útil el método propuesto es si se requiere una aproximación rápida los posibles objetos de la escena, por ejemplo en la inicialización de un algoritmo de sustracción de fondo.
+
+
+\section{Credito Extra}
+
+El benchmark se ejecuta de nuevo sobre el set de 'Test' (de acuerdo a las observaciones recibidas despues de la entrega) de la BSDS-500. Se utilizan los algoritmos clustering: GMM, Hierachical cluster y KMeans, y se corren unicamente el espacio de color HSV+xy. Adicionalmente se utiliza un K entre 2 y 15 para mejorar un poco los resultados de la segmentación.
+
+
+\begin{table*}[th!]
+\centering
+\begin{tabular}{c | c | c | c }
+Metodo & ODS & OID & AreaPR  \\
+\hline	
+HSV+xy GMM & F( 0.78, 0.40 ) = 0.53  & F( 0.80, 0.47 ) = 0.59 & 0.27 \\
+HSV+xy KMeans & F( 0.78, 0.39 ) = 0.50  &  F( 0.81, 0.46 ) = 0.58 &  0.27\\
+HSV+xy Hierachical & F( 0.72, 0.70 ) = 0.71  & F( 0.77, 0.71 ) = 0.74 &  0.73\\
+\end{tabular}
+\label{table:thetable2}
+\end{table*}
+
+
+En la tabla \ref{table:thetable2} y se puede observar que el desempeño de los metodos mejora ligeramente comoarado con la tabla \ref{table:thetable}, este resultado se debe principalmente a que se tiene 2 clusters extra (K va hasta 15) que posiblemente mejoran el desempeño en imagenes que tienen mas de 13 objetos.
 
 
 {\small
