@@ -1,0 +1,1 @@
+The code was modified so that it also calculates the average magnitude and average orientation of the vector created by every pair of tracked dots in consecutive frames. this magnitude and orientation are used to establish the global orientation of motion and thus giving the decision if the object is moving left or right
