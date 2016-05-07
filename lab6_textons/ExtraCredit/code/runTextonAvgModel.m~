@@ -1,0 +1,13 @@
+setenv('LC_ALL','C') 
+addpath('/home/jcleon/storage/disk0/Other/code/lab_vision/lab6_textons/lib')
+
+clases = ['Bark';'wood';'water';'granite';'marble';'floor';'pebbles';'wall';'brick';'glass';'carpet';'upholstery';'wallpaper';'fur';'knit';'corduroy';'plaid'];
+
+
+for i=1:len(clases)
+    [avgResponse,summedResponse]=calculatePerClassTextonrepResentation('/home/jcleon/storage/disk0/Other/textures/ExtraScale',clases(i));
+    save(/home/fuanka/Malik/storage/disk0/Other/textures/ExtraScale/models','.mat'),'aResponse','-v7.3')
+end
+
+
+
