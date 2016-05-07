@@ -289,26 +289,41 @@ Finalmente, y para poder superar el desempeño de UCM, sería necesario incorpor
 En un escenario real en el que se requiera aplicar un método de segmentación, no hay razón para preferir alguno de los métodos propuestos por encima del UCM. Existe una muy importante diferencia en el desempeño (especialmente en cuanto a precisión) de los métodos propuestos y UCM. El único caso en el que podría resultar útil el método propuesto es si se requiere una aproximación rápida los posibles objetos de la escena, por ejemplo en la inicialización de un algoritmo de sustracción de fondo.
 
 
-\section{Credito Extra}
-
-El benchmark se ejecuta de nuevo sobre el set de 'Test' (de acuerdo a las observaciones recibidas despues de la entrega) de la BSDS-500. Se utilizan los algoritmos clustering: GMM, Hierachical cluster y KMeans, y se corren unicamente el espacio de color HSV+xy. Adicionalmente se utiliza un K entre 2 y 15 para mejorar un poco los resultados de la segmentación.
+\section{Crédito Extra}
+recibidas después de la entrega) de la BSDS-500. Se utilizan los algoritmos de clustering: GMM, Hierarchical cluster y KMeans, y se corren únicamente el espacio de color HSV+xy. Adicionalmente se utiliza un K entre 2 y 15 para mejorar un poco los resultados de la segmentación.
 
 
 \begin{table*}[th!]
 \centering
 \begin{tabular}{c | c | c | c }
-Metodo & ODS & OID & AreaPR  \\
+Método & ODS & OID & AreaPR  \\
 \hline	
 HSV+xy GMM & F( 0.78, 0.40 ) = 0.53  & F( 0.80, 0.47 ) = 0.59 & 0.30 \\
 HSV+xy KMeans &  F( 0.71, 0.38 ) = 0.49 & F( 0.75, 0.43 ) = 0.54 &  0.28\\
-HSV+xy Hierachical & F( 0.66, 0.47 ) = 0.55  & F( 0.71, 0.51 ) = 0.59 &  0.33\\
+HSV+xy Hierarchical & F( 0.66, 0.47 ) = 0.55  & F( 0.71, 0.51 ) = 0.59 &  0.33\\
 \end{tabular}
 \label{table:thetable2}
 \end{table*}
 
+En la tabla \ref{table:thetable2} se puede observar que el desempeño de los métodos mejora ligeramente respecto a lo presentado originalmente en la tabla \ref{table:thetable}, este resultado se debe principalmente a que se tiene 2 clusters extra (K va hasta 15) que posiblemente mejoran el desempeño en imágenes que tienen más de 13 objetos.
 
-En la tabla \ref{table:thetable2} y se puede observar que el desempeño de los metodos mejora ligeramente comoarado con la tabla \ref{table:thetable}, este resultado se debe principalmente a que se tiene 2 clusters extra (K va hasta 15) que posiblemente mejoran el desempeño en imagenes que tienen mas de 13 objetos.
 
+Al igual que en el experimento inicial, ninguna de la curvas alcanza la precisión de 1, tampoco se logra llegar a una cobertura de 1. el mejor caso se presenta con el método de hierarchical clustering, con una precisión máxima por debajo de 0.6 y una cobertura apenas superior a 0.8. En ningún caso se solucionan las deficiencias de los métodos utilizados y, por tanto, la diferencia entre los métodos propuestos y la estrategia de UCM se mantiene.
+
+Una posible estrategia para mejorar los resultados sería mezclar la salida de los algoritmos de GMM y Hierarchical clustering, bajo esta estrategia es posible que se mejore la cobertura del segundo método.
+
+
+
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=1.15\linewidth]
+                {img/UCM2.jpg}
+\end{center}
+\caption{Curvas de precision y recall para los métodos usados en el credito extra. En verde la curva de hierachical clustering, en negro la de GMM y en rojo la curva de k-Means}
+\label{fig:plot2}
+\end{figure}
 
 {\small
 \bibliographystyle{ieee}
